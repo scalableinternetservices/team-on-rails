@@ -82,9 +82,6 @@ test:
 #
 production:
   <<: *default
-  database: team_on_rails_production
-  username: team_on_rails
-  password: <%= ENV["TEAM_ON_RAILS_DATABASE_PASSWORD"] %>
   database: <%= ENV['RDS_DB_NAME'] %>
   host: <%= ENV['RDS_HOSTNAME'] %>
   password: <%= ENV['RDS_PASSWORD'] %>

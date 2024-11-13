@@ -1,0 +1,14 @@
+<%= form_with(model: Post.new) do |form| %>
+    <div>
+      <%= form.text_area :body %>
+    </div>
+    <%= form.submit "Create Post" %>
+<% end %>
+
+<br>
+<% if flash[:alert] %>
+    <div style="background-color: #f8d7da; color: #721c24; padding: 10px; border: 1px solid #f5c6cb; border-radius: 4px; margin-bottom: 10px;">
+        <strong>Alert:</strong> <%= flash[:alert] %>
+    </div>
+<% end %>
+<br>

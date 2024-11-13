@@ -5,6 +5,30 @@ Rails.application.routes.draw do
   # Can be used by load balancers and uptime monitors to verify that the app is live.
   get "up" => "rails/health#show", as: :rails_health_check
 
+  # Render dynamic PWA files from app/views/pwa/*
+  get "service-worker" => "rails/pwa#service_worker", as: :pwa_service_worker
+  get "manifest" => "rails/pwa#manifest", as: :pwa_manifest
+
   # Defines the root path route ("/")
-  # root "posts#index"
+  # root "sessions#show"
+  root "posts#index"
+
+  get '/login', to: 'sessions#new'
+  post '/login', to: 'sessions#create'
+  get '/logout', to: 'sessions#destroy'  
+
+  post '/', to: 'posts#create', as: 'new_post'
+  get '/posts', to: 'posts#index'
+  post '/posts', to: 'posts#create'
+  get '/posts/:id', to: 'posts#show', as: 'post'
+
+  delete '/posts/:id', to: 'posts#destroy'
+  post '/posts/:id', to: 'posts#update'
+
+  post '/posts/:post_id/comments', to: 'comments#create', as: 'post_comments'
+
+  # TODO: do we need this for posts?
+  # resources :users do
+  #   resources :posts
+  # end
 end

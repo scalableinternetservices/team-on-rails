@@ -1,0 +1,198 @@
+<style>
+  .container {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 24px;
+  }
+  
+  .card {
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    padding-left: 24px;
+    padding-top: 24px;
+    padding-bottom: 12px;
+  }
+
+  .header {
+    border-bottom: 1px solid #eee;
+    padding-bottom: 16px;
+    margin-bottom: 24px;
+  }
+
+  .post-title {
+    font-size: 24px;
+    font-weight: bold;
+    margin: 0;
+  }
+
+  .meta-text {
+    font-size: 14px;
+    color: #666;
+  }
+
+  .meta-text .author {
+    font-weight: 600;
+  }
+
+  .post-content {
+    margin-bottom: 32px;
+  }
+
+  .post-body {
+    font-size: 18px;
+    font-weight: 600;
+  }
+
+  .update-section {
+    background: #f8f9fa;
+    border-radius: 8px;
+    padding: 24px;
+  }
+
+  .post-section {
+    background: #f8f9fa;
+    border-radius: 8px;
+    padding-top: 24px;
+    padding-left: 24px;
+    text-align: center;
+  }
+
+  .post-title {
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 16px;
+    padding-left: 24px;
+    text-align: center;
+  }
+
+  .text-area {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    margin-bottom: 16px;
+  }
+
+  .text-area:focus {
+    outline: none;
+    border-color: #4a90e2;
+    box-shadow: 0 0 0 3px rgba(74,144,226,0.2);
+  }
+
+  .button {
+    padding: 8px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    border: none;
+    font-weight: 500;
+    text-decoration: none;
+  }
+
+  .button-blue {
+    background: #4a90e2;
+    color: white;
+  }
+
+  .button-blue:hover {
+    background: #357abd;
+  }
+
+  .button-red {
+    color: #dc3545;
+    border: 1px solid #dc3545;
+    background: white;
+  }
+
+  .button-red:hover {
+    background: #fff5f5;
+  }
+
+  .comments-section {
+    margin-top: 32px;
+  }
+
+  .comments-title {
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 16px;
+  }
+
+  .comment-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .comment-item {
+    background: #f8f9fa;
+    padding: 16px;
+    border-radius: 6px;
+    margin-bottom: 12px;
+  }
+
+  .no-comments {
+    color: #666;
+    font-style: italic;
+  }
+
+  .alert {
+    background-color: #f8d7da;
+    color: #721c24;
+    padding: 12px;
+    border: 1px solid #f5c6cb;
+    border-radius: 4px;
+    margin-bottom: 16px;
+  }
+
+  .button-container {
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  .logged-in {
+    text-align: center;
+    font-size: 18px;
+  }
+</style>
+
+
+<% if @current_user %>
+  <p class="logged-in">Currently logged in as: <%= @current_user.username %></p>
+
+<!-- <h2 class="post-title">Add a new post:</h2> -->
+<div class="post-section">
+  <%= render 'posts/form' %>
+</div>
+
+<% @posts.each do |post| %>
+    <div class="container">
+      <article class="card">
+        <header class="header">
+          <h1 class="post-title">Post <%= post.id %></h1>
+          <p class="meta-text"> Posted by: <%= post.username %> </p>
+          <p class="meta-text"> Last updated: <%= post.updated_at.strftime("%B %d, %Y, %I:%M %p") %> </p> 
+        </header>
+
+        <div class="post-content">
+          <h2 class="post-body"> <%= post.body %> </h2>
+        </div>
+
+        <p class="meta-text"> Comments: <%= post.comments.count %>
+        <br>
+        <br>
+        <% if @current_user.username == post.username %>
+          <div class="update-section">
+            <%= link_to "Update Post", post_path(post), class: "button button-blue" %>
+            <%= link_to "Delete Post", post_path(post), class: "button button-red", 
+              data: {
+              turbo_method: :delete,
+              turbo_confirm: "Are you sure?"
+              } %>
+          </div>
+        <% end %>
+        </article>
+    </div>
+<% end %>
+
+<% end %>

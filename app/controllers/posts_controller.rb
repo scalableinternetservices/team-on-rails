@@ -1,16 +1,20 @@
 class PostsController < ApplicationController
-  before_action :require_login
+  # before_action :require_login, only: [:show]
 
   def index
-    @posts = Post.order("created_at DESC").all
     @current_user = User.find_by(id: session[:user_id])
+    @posts = Post.order("created_at DESC").all
+
+    # Only show posts created by current user
+    # @posts = Post.where(username: @current_user.username).order("created_at DESC").all
   end
 
   def show
     @current_user = User.find_by(id: session[:user_id])
     begin
-      @post = Post.find(params[:id])
-      @comments = @post.comments
+      # @post = Post.find(params[:id])
+      # @comments = @post.comments
+      @posts = Post.where(username: @current_user.username).order("created_at DESC").all
 
     # Returns 404 if post not found
     rescue ActiveRecord::RecordNotFound

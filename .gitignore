@@ -35,4 +35,4 @@
 /config/master.key
 
 # Ignore yarn integrity file
-.yarn-integrity
+node_modules/.yarn-integrity

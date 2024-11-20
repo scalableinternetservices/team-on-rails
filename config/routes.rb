@@ -17,6 +17,12 @@ Rails.application.routes.draw do
   post '/login', to: 'sessions#create'
   get '/logout', to: 'sessions#destroy'  
 
+  resources :meetings do
+    member do
+      post :join
+      delete :leave
+    end
+  end
   post '/', to: 'posts#create', as: 'new_post'
   get '/posts', to: 'posts#index'
   post '/posts', to: 'posts#create'

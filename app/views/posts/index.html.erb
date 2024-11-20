@@ -4,7 +4,32 @@
     margin: 0 auto;
     padding: 24px;
   }
-  
+
+  .sidebyside {
+    display: flex; 
+    justify-content: space-between; 
+    align-items: flex-start; 
+    border: 1px solid #ccc; 
+    padding: 20px; 
+  }
+
+  .left {
+    width: 45%; 
+    background-color: #f0f0f0;
+    padding: 10px;
+  }
+
+  .right {
+    width: 45%;
+    background-color: #e0e0e0; 
+    padding: 10px;
+    display: flex;
+    jusitfy-content: center;
+    align-items: center;
+    flex-direction: column;
+    text-align: center;
+  }
+
   .card {
     background: white;
     border-radius: 8px;
@@ -214,36 +239,43 @@
     <%= render 'posts/form' %>
   </div>
 
-  <% @posts.each do |post| %>
-      <div class="container">
-        <%= link_to post_path(post), class: "card-link" do %>
 
-        <article class="card">
-          <header class="header">
-            <h1 class="post-title">Post <%= post.id %></h1>
-            <p class="meta-text"> Posted by: <%= post.username %> </p>
-            <p class="meta-text"> Last updated: <%= post.updated_at.strftime("%B %d, %Y, %I:%M %p") %> </p> 
-          </header>
+  <div class = "sidebyside">
+    <div class = "left">
+      <% @posts.each do |post| %>
+        <div class="container">
+          <%= link_to post_path(post), class: "card-link" do %>
+          <article class="card">
+            <header class="header">
+              <h1 class="post-title">Post <%= post.id %></h1>
+              <p class="meta-text"> Posted by: <%= post.username %> </p>
+              <p class="meta-text"> Last updated: <%= post.updated_at.strftime("%B %d, %Y, %I:%M %p") %> </p> 
+            </header>
 
-          <div class="post-content">
-            <h2 class="post-body"> <%= post.body %> </h2>
-          </div>
-
-          <p class="meta-text"> Comments: <%= post.comments.count %>
-          <br>
-          <br>
-          <% if @current_user.username == post.username %>
-            <div class="update-section">
-              <%= link_to "Update Post", post_path(post), class: "button button-blue" %>
-              <%= link_to "Delete Post", post_path(post), class: "button button-red", 
-                data: {
-                turbo_method: :delete,
-                turbo_confirm: "Are you sure?"
-                } %>
+            <div class="post-content">
+              <h2 class="post-body"> <%= post.body %> </h2>
             </div>
-          <% end %>
+
+            <p class="meta-text"> Comments: <%= post.comments.count %> </p>
+            <br>
+            <br>
+            <% if @current_user.username == post.username %>
+              <div class="update-section">
+                <%= link_to "Update Post", post_path(post), class: "button button-blue" %>
+                <%= link_to "Delete Post", post_path(post), class: "button button-red", 
+                  data: {
+                  turbo_method: :delete,
+                  turbo_confirm: "Are you sure?"
+                  } %>
+              </div>
+            <% end %>
           </article>
-        <% end %>
-      </div>
-  <% end %>
-<% end %>
+          <%end%>
+        </div>
+      <% end %>
+    </div>
+    <div class = "right">
+      <h2> Chats are gonna be here </h2>
+    </div>
+  </div>
+<%end%>

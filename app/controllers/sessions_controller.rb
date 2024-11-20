@@ -18,9 +18,27 @@ class SessionsController < ApplicationController
   end
 
   def create
-    user = User.find_or_create_by(username: params[:username])
-    session[:user_id] = user.id
-    redirect_to root_path
+    user = User.find_by(username: params[:username])
+
+    if user 
+      if user.password == params[:password]
+        session[:user_id] = user.id
+        redirect_to root_path
+      else
+        flash.now[:alert] = "Invalid username or password"
+        render :new, status: :unprocessable_entity
+      end
+    else
+      user = User.new(username: params[:username], password: params[:password])
+
+      if user.save
+        session[:user_id] = user.id
+        redirect_to root_path
+      else
+        flash.now[:alert] = "Could not create new user. Please try again."
+        render :new, status: :unprocessable_entity
+      end
+    end
   end
 
   def destroy

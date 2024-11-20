@@ -10,8 +10,7 @@ Rails.application.routes.draw do
   get "manifest" => "rails/pwa#manifest", as: :pwa_manifest
 
   # Defines the root path route ("/")
-  # root "sessions#show"
-  root "posts#index"
+  root 'posts#index'
 
   get '/login', to: 'sessions#new'
   post '/login', to: 'sessions#create'
@@ -23,6 +22,7 @@ Rails.application.routes.draw do
       delete :leave
     end
   end
+
   post '/', to: 'posts#create', as: 'new_post'
   get '/posts', to: 'posts#index'
   post '/posts', to: 'posts#create'
@@ -32,9 +32,4 @@ Rails.application.routes.draw do
   post '/posts/:id', to: 'posts#update'
 
   post '/posts/:post_id/comments', to: 'comments#create', as: 'post_comments'
-
-  # TODO: do we need this for posts?
-  # resources :users do
-  #   resources :posts
-  # end
 end

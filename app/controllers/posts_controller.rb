@@ -2,7 +2,7 @@ class PostsController < ApplicationController
   before_action :require_login
 
   def index
-    @posts = Post.all
+    @posts = Post.order("created_at DESC").all
     @current_user = User.find_by(id: session[:user_id])
   end
 

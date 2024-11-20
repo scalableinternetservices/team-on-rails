@@ -17,18 +17,18 @@ Rails.application.routes.draw do
   post '/login', to: 'sessions#create'
   get '/logout', to: 'sessions#destroy'  
 
-  post '/', to: 'posts#create', as: 'new_post'
-  get '/posts', to: 'posts#index'
-  post '/posts', to: 'posts#create'
-  get '/posts/:id', to: 'posts#show', as: 'post'
+  # get '/posts', to: 'posts#index'
+  # post '/posts', to: 'posts#create'
+  # get '/posts/:id', to: 'posts#show', as: 'post'
 
-  delete '/posts/:id', to: 'posts#destroy'
-  post '/posts/:id', to: 'posts#update'
+  # delete '/posts/:id', to: 'posts#destroy'
+  # post '/posts/:id', to: 'posts#update'
+  resources :posts do
+    resources :comments
+  end
 
-  post '/posts/:post_id/comments', to: 'comments#create', as: 'post_comments'
+  resources :chats do
+    resources :messages
+  end
 
-  # TODO: do we need this for posts?
-  # resources :users do
-  #   resources :posts
-  # end
 end

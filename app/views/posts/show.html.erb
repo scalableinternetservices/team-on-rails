@@ -170,7 +170,7 @@
     <% if @current_user.username == @post.username %>
       <div class="update-section">
         <h3 class="update-title">Update Post</h3>
-        <%= form_with(model: @post, method: :post) do |form| %>
+        <%= form_with(model: @post, method: :put) do |form| %>
           <div>
             <%= form.text_area :body, class: "text-area", rows: 4 %>
           </div>

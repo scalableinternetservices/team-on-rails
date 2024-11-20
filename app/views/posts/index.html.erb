@@ -154,6 +154,21 @@
     text-align: center;
     font-size: 18px;
   }
+
+  .card-link {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+  }
+
+  .card {
+    transition: box-shadow 0.2s ease;
+  }
+
+  .card:hover {
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    cursor: pointer;
+  }
 </style>
 
 
@@ -167,31 +182,33 @@
 
 <% @posts.each do |post| %>
     <div class="container">
-      <article class="card">
-        <header class="header">
-          <h1 class="post-title">Post <%= post.id %></h1>
-          <p class="meta-text"> Posted by: <%= post.username %> </p>
-          <p class="meta-text"> Last updated: <%= post.updated_at.strftime("%B %d, %Y, %I:%M %p") %> </p> 
-        </header>
+      <%= link_to post_path(post), class: "card-link" do %>
+        <article class="card">
+          <header class="header">
+            <h1 class="post-title">Post <%= post.id %></h1>
+            <p class="meta-text"> Posted by: <%= post.username %> </p>
+            <p class="meta-text"> Last updated: <%= post.updated_at.strftime("%B %d, %Y, %I:%M %p") %> </p> 
+          </header>
 
-        <div class="post-content">
-          <h2 class="post-body"> <%= post.body %> </h2>
-        </div>
-
-        <p class="meta-text"> Comments: <%= post.comments.count %>
-        <br>
-        <br>
-        <% if @current_user.username == post.username %>
-          <div class="update-section">
-            <%= link_to "Update Post", post_path(post), class: "button button-blue" %>
-            <%= link_to "Delete Post", post_path(post), class: "button button-red", 
-              data: {
-              turbo_method: :delete,
-              turbo_confirm: "Are you sure?"
-              } %>
+          <div class="post-content">
+            <h2 class="post-body"> <%= post.body %> </h2>
           </div>
-        <% end %>
+
+          <p class="meta-text"> Comments: <%= post.comments.count %>
+          <br>
+          <br>
+          <% if @current_user.username == post.username %>
+            <div class="update-section">
+              <%= link_to "Update Post", post_path(post), class: "button button-blue" %>
+              <%= link_to "Delete Post", post_path(post), class: "button button-red", 
+                data: {
+                turbo_method: :delete,
+                turbo_confirm: "Are you sure?"
+                } %>
+            </div>
+          <% end %>
         </article>
+      <% end %>
     </div>
 <% end %>
 

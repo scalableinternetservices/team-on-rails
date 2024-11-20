@@ -1,6 +1,6 @@
 class MeetingsController < ApplicationController
   before_action :set_meeting, only: [:show, :edit, :update, :destroy, :join, :leave]
-  before_action :require_user, except: [:index, :show]
+  before_action :require_user
 
   def index
     @meetings = Meeting.all.order(start_time: :asc)

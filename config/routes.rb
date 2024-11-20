@@ -24,6 +24,8 @@ Rails.application.routes.draw do
     end
   end
 
+  get '/profile', to: 'users#index', as: 'user_profile_path'
+
   post '/', to: 'posts#create', as: 'new_post'
   get '/posts', to: 'posts#index'
   post '/posts', to: 'posts#create'

@@ -1,6 +1,6 @@
 <%= form_with(model: Post.new) do |form| %>
     <div>
-      <%= form.text_area :body %>
+      <%= form.text_area :body, rows: 5, cols: 30 %>
     </div>
     <%= form.submit "Create Post" %>
 <% end %>

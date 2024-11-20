@@ -230,12 +230,57 @@
   .new-meeting-details[open] .post-section {
     animation: slideDown 0.7s ease-out;
   }
+
+  .button-logout {
+    color: #dc3545;
+    border: 1px solid #dc3545;
+    background: #dc3545;
+    color: white;
+    margin-right: 50px;
+    padding-top: 10px;
+  }
+
+  .button-logout:hover {
+    background: #b52d3a;
+  }
+
+  .logged-in {
+    font-size: 18px;
+  }
+
+  .menu-bar {
+    position: absolute; 
+    top: 0;
+    left: 0;
+    width: 100%; 
+    background-color: #333; 
+    color: white; 
+    padding: 10px 20px; 
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 1000;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  }
+
+  .meeting-title{
+    text-align: center;
+    margin-top: 80px;
+  }
 </style>
 
-<h1 style="text-align: center;">Meetings</h1>
-
 <% if @current_user %>
-  <p class="logged-in">Currently logged in as: <%= @current_user.username %></p>
+  <div class="menu-bar"
+      <p class="logged-in">Currently logged in as: <%= @current_user.username %></p>
+
+      <%= link_to "Logout", logout_path, class: "button button-logout", 
+          data: {
+            turbo_method: :delete,
+            turbo_confirm: "Are you sure you want logout?"
+      } %>
+  </div>
+
+  <h1 class="meeting-title"">Meetings</h1>
 
   <div class="container">
     <details class="new-meeting-details">

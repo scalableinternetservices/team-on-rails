@@ -38,6 +38,8 @@ Rails.application.routes.draw do
 
   resources :chats do
     resources :messages
+    post 'create_message', on: :member
   end
 
+  get 'search', to: 'users#search'
 end

@@ -1,0 +1,8 @@
+<!-- app/views/messages/_message.html.erb -->
+
+<div id="message-<%= message.id %>">
+
+  <p class = "message-card"><%= message.body %></p>
+  <small style="color: #888;"><%= message.created_at.strftime("%H:%M") %></small>
+</div>
+

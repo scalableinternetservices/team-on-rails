@@ -1,0 +1,117 @@
+<style>
+  .message-card{
+    background: #f8f9fa;
+    padding: 16px;
+    border-radius: 6px;
+    margin-bottom: 12px;
+  }
+
+  .left{
+    display: flex;
+    flex-direction: row;
+    padding-left: 10px;
+  }
+  .right{
+    display: flex;  
+    flex-direction: row-reverse;
+    padding-right: 10px;
+
+  }
+
+.middle {
+    display: inline-block;
+    justify-content: center;
+    align-items: center;
+    background-color: lightblue;
+    padding: 10px;
+    border-radius: 10px;
+
+}
+.chat-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100vh ;
+
+}
+
+
+.message-container {
+    overflow-y: auto;
+    padding: 20px;
+    display: flex;
+    flex-direction: column-reverse;
+    flex-grow: 1;
+}
+.chat{
+  width: 80%;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  height: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+textarea{
+    resize:none;
+}
+
+.bottom {
+    display: flex;
+    flex-direction: column-reverse;
+    justify-content: space-between;
+    padding-bottom: 40px;
+}
+
+</style>
+
+
+<div class = "chat-container">
+
+<div style="display: flex; align-items: center; justify-content: center;">
+<h1 class = "middle">Chat with <%= @chat_recipient.username %></h1>
+</div>
+
+<div class ="message-container">
+<div id="messages">
+    <%@messages.each do |message| %>
+        <%if message.user_id == @current_user.id %>
+            <div class=" right">
+                <%=render message%>
+            </div>
+        <%else%>
+            <div class=" left">
+                <%=render message%>
+            </div>
+        <%end%>
+    <%end%>
+</div>
+
+</div>
+<div class ="bottom">
+<%= form_with(model: @message, url: create_message_chat_path(@chat), local: true, id: 'message-form') do |form| %>
+  <div class="form-group">
+    <%= form.text_area :body, rows: 3, class: 'chat', placeholder: 'Type your message...', id: 'message-body' %>
+  </div>
+<% end %>
+
+
+<script>
+  // Add event listener to the form or the textarea
+  document.getElementById('message-body').addEventListener('keydown', function(event) {
+    if (event.key === 'Enter' && !event.shiftKey) {
+      // Prevent default action (inserting a new line) when Enter is pressed
+      event.preventDefault();
+      // Submit the form
+      document.getElementById('message-form').submit();
+    }
+  });
+</script>
+
+</div>
+</div>
+

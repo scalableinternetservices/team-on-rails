@@ -3,16 +3,39 @@
     max-width: 1000px;
     margin: 0 auto;
     padding: 24px;
-    margin-bottom: 80px;
   }
-  
+
+  .sidebyside {
+    display: flex; 
+    justify-content: space-between; 
+    align-items: flex-start; 
+    border: 1px solid #ccc; 
+    padding: 20px; 
+  }
+
+  .left {
+    width: 45%; 
+    background-color: #f0f0f0;
+    padding: 10px;
+    justify-content: center;
+  }
+
+  .right {
+    width: 45%;
+    background-color: #e0e0e0; 
+    padding: 10px;
+    display: flex;
+    jusitfy-content: center;
+    align-items: center;
+    flex-direction: column;
+    text-align: center;
+  }
+
   .card {
     background: white;
     border-radius: 8px;
     box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-    padding-left: 24px;
-    padding-top: 24px;
-    padding-bottom: 12px;
+    padding: 24px;
   }
 
   .header {
@@ -24,7 +47,6 @@
   .post-title {
     font-size: 24px;
     font-weight: bold;
-    margin: 0;
   }
 
   .meta-text {
@@ -48,7 +70,10 @@
   .update-section {
     background: #f8f9fa;
     border-radius: 8px;
-    padding: 24px;
+    padding: 12px;
+    display: flex;
+    justify-content: space-between;
+
   }
 
   .post-section {
@@ -64,7 +89,6 @@
     font-size: 18px;
     font-weight: 600;
     margin-bottom: 16px;
-    padding-left: 24px;
     text-align: center;
   }
 
@@ -81,7 +105,7 @@
     border-color: #4a90e2;
     box-shadow: 0 0 0 3px rgba(74,144,226,0.2);
   }
-
+  
   .button {
     padding: 8px 16px;
     border-radius: 6px;
@@ -200,6 +224,7 @@
   }
 </style>
 
+
 <% if @current_user %>
   <div class="menu-bar">
     <p class="logged-in">Currently logged in as: <%= @current_user.username %></p>
@@ -215,36 +240,43 @@
     <%= render 'posts/form' %>
   </div>
 
-  <% @posts.each do |post| %>
-      <div class="container">
-        <%= link_to post_path(post), class: "card-link" do %>
 
-        <article class="card">
-          <header class="header">
-            <h1 class="post-title">Post <%= post.id %></h1>
-            <p class="meta-text"> Posted by: <%= post.username %> </p>
-            <p class="meta-text"> Last updated: <%= post.updated_at.strftime("%B %d, %Y, %I:%M %p") %> </p> 
-          </header>
+  <div class = "sidebyside">
+    <div class = "left">
+      <% @posts.each do |post| %>
+        <div class="container">
+          <%= link_to post_path(post), class: "card-link" do %>
+          <article class="card">
+            <header class="header">
+              <h1 class="post-title">Post <%= post.id %></h1>
+              <p class="meta-text"> Posted by: <%= post.username %> </p>
+              <p class="meta-text"> Last updated: <%= post.updated_at.strftime("%B %d, %Y, %I:%M %p") %> </p> 
+            </header>
 
-          <div class="post-content">
-            <h2 class="post-body"> <%= post.body %> </h2>
-          </div>
-
-          <p class="meta-text"> Comments: <%= post.comments.count %>
-          <br>
-          <br>
-          <% if @current_user.username == post.username %>
-            <div class="update-section">
-              <%= link_to "Update Post", post_path(post), class: "button button-blue" %>
-              <%= link_to "Delete Post", post_path(post), class: "button button-red", 
-                data: {
-                turbo_method: :delete,
-                turbo_confirm: "Are you sure?"
-                } %>
+            <div class="post-content">
+              <h2 class="post-body"> <%= post.body %> </h2>
             </div>
-          <% end %>
+
+            <p class="meta-text"> Comments: <%= post.comments.count %> </p>
+            <br>
+            <br>
+            <% if @current_user.username == post.username %>
+              <div class="update-section">
+                <%= link_to "Update Post", post_path(post), class: "button button-blue" %>
+                <%= link_to "Delete Post", post_path(post), class: "button button-red", 
+                  data: {
+                  turbo_method: :delete,
+                  turbo_confirm: "Are you sure?"
+                  } %>
+              </div>
+            <% end %>
           </article>
-        <% end %>
-      </div>
-  <% end %>
-<% end %>
+          <%end%>
+        </div>
+      <% end %>
+    </div>
+    <div class = "right">
+      <h2> Chats are gonna be here </h2>
+    </div>
+  </div>
+<%end%>

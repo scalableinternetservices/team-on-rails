@@ -16,6 +16,7 @@ Rails.application.routes.draw do
   post '/login', to: 'sessions#create'
   get '/logout', to: 'sessions#destroy'  
   delete '/logout', to: 'sessions#destroy', as: 'logout_path'
+  patch 'update_role', to: 'users#update_role'
 
   resources :meetings do
     member do
@@ -24,7 +25,7 @@ Rails.application.routes.draw do
     end
   end
 
-  get '/profile', to: 'users#index', as: 'user_profile_path'
+  get '/profile', to: 'users#index', as: 'profile'
 
   post '/', to: 'posts#create', as: 'new_post'
   get '/posts', to: 'posts#index'

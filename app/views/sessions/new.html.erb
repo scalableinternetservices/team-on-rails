@@ -1,10 +1,87 @@
-<h1>Login</h1>
+<style>
+  body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  h1{
+    # margin-left: 10px;
+  }
+
+  form {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    align-items: center;
+    font-size: 18px;
+  }
+
+  .form-row{
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+    gap: 10px;
+  }
+
+  label {
+    width: 75px;
+  }
+
+  input[type="text"] {
+    width: 175px;
+    padding: 5px;
+    border: 1px solid #ccc; 
+    border-radius: 5px; 
+    font-size: 16px; 
+  }
+
+  input[type="password"] {
+    width: 175px;
+    padding: 5px;
+    border: 1px solid #ccc; 
+    border-radius: 5px; 
+    font-size: 16px; 
+  }
+
+  input[type="submit"] {
+    background-color: #007bff; 
+    color: white;
+    border: none; 
+    border-radius: 5px; 
+    padding: 10px 20px; 
+    font-size: 16px;
+  }
+
+  .alert {
+    background-color: #f8d7da;
+    color: #721c24;
+    padding: 12px;
+    border: 1px solid #f5c6cb;
+    border-radius: 4px;
+    margin-bottom: 16px;
+    margin-top: 10px;
+  }
+</style>
+
+<h1>Login to ZachFolio</h1>
 
 <%= form_with(url: login_path, method: :post, local: true) do |form| %>
-  <div>
+  <div class="form-row">
     <%= form.label :username %>
     <%= form.text_field :username, required: true %>
+  </div>
+  <div class="form-row">
+    <%= form.label :password %>
+    <%= form.password_field :password, required: true %>
   </div>
 
   <%= form.submit "Log In" %>
 <% end %>
+
+<% if flash.now[:alert] %>
+  <div class="alert">
+    <strong>Alert:</strong> <%= flash.now[:alert] %>
+  </div>
+<% end %>
+

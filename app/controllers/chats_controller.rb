@@ -1,9 +1,9 @@
 class ChatsController < ApplicationController
     before_action :set_chat, only: [:show, :create_message]
     before_action :require_login
-    before_action :check_authorization
   
     def show
+        check_authorization()
         @chat_recipient_id = @chat.user1_id == @current_user.id ? @chat.user2_id : @chat.user1_id
         @chat_recipient = User.find(@chat_recipient_id)
 
@@ -12,8 +12,25 @@ class ChatsController < ApplicationController
         @message = Message.new 
     end
 
-    def index
-        redirect_to
+    def new
+        @chat = Chat.new
+    end
+
+    def create
+        otherUser = User.find_by(username: params[:query])
+        if otherUser.nil?
+            redirect_back(fallback_location:posts_path, alert: 'User not found')
+        elsif otherUser.id == @current_user.id
+            puts chats_path
+            redirect_back(fallback_location:posts_path, alert: 'You cannot chat with yourself')
+        else
+            @chat = Chat.new(:user1_id => @current_user.id, :user2_id => otherUser.id)
+            if @chat.save
+                redirect_to @chat
+            else
+                redirect_back(fallback_location: posts_path, alert: 'There was an error creating the chat.')
+            end
+        end
     end
   
     def create_message
@@ -61,4 +78,8 @@ class ChatsController < ApplicationController
     def message_params
         params.require(:message).permit(:body)
     end
+
+    def chat_params
+        params.require(:chat).permit(:query)  # Adjust to your Chat model's attributes
+      end
 end

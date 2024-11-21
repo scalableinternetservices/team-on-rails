@@ -42,4 +42,5 @@ Rails.application.routes.draw do
   end
 
   get 'search', to: 'users#search'
+  get 'new_chat', to: 'chats#new'
 end

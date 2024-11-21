@@ -1,0 +1,194 @@
+<style>
+.sidebyside {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: flex-start;
+    padding: 20px 0px;
+}
+
+.left {
+    width: 45%;
+    background-color: #f0f0f0;
+    padding: 10px;
+    justify-content: center;
+}
+
+.right {
+    width: 45%;
+    background-color: #f0f0f0;
+    padding: 10px;
+    display: flex;
+    jusitfy-content: center;
+    align-items: center;
+    flex-direction: column;
+    text-align: center;
+}
+.search-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.plus-button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    font-size: 24px;
+    cursor: pointer;
+    transition: transform 1.0s ease;
+}
+
+.plus-button:hover {
+    transform: scale(1.2) rotate(45deg);
+    /* Grows and rotates the button */
+}
+
+.search-bar {
+    padding: 8px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    width: 0; /* Start collapsed */
+    opacity: 0; /* Start hidden */
+    transition: width 0.3s ease, opacity 0.3s ease; /* Smooth transition for both width and opacity */
+    visibility: hidden; 
+
+}
+
+.search-bar.active {
+    width: 300px; /* Expanded width */
+    opacity: 1; /* Fully visible */
+    visibility: visible; 
+}
+
+
+.search-form {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.interface {
+    display: none;
+}
+
+.interface.active1 {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    width: 100%;
+    flex-wrap: wrap;
+}
+
+.interface.active2 {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    width: 100%;
+    flex-wrap: wrap;
+}
+
+.toggle-button {
+    padding: 10px 20px;
+    margin: 5px;
+    cursor: pointer;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+.toggle-button.active {
+    padding: 10px 20px;
+    margin: 5px;
+    cursor: pointer;
+    background-color: #0056b3;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+.toggle-button:hover {
+    background-color: #0056b3;
+}
+#suggestions {
+  position: absolute;
+  z-index: 1000;
+  display: none;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  background-color: white;
+  border: 1px solid #ccc;
+  width: 200px;
+}
+
+#suggestions li {
+  padding: 8px 10px;
+  cursor: pointer;
+}
+
+#suggestions li:hover {
+  background-color: #f0f0f0;
+}
+
+.message-card {
+    display: flex;
+    max-width: 600px;
+    /* Optional, limits the maximum size */
+    margin: 20px auto;
+    flex-direction: column;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    padding: 5px 20px;
+    height: auto;
+}
+
+.chat-card {
+    display: inline-block;
+    max-width: 600px;
+    margin: 20px auto;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    padding: 5px 20px;
+    height: auto;
+}
+
+.chat-section {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+</style>
+<div class="sidebyside">
+    <button id="show-interface-1" class="toggle-button active">New Messages</button>
+    <button id="show-interface-2" class="toggle-button">Chats</button>
+</div>
+
+<div id="interface-1" class="interface active1">
+    <%= render 'messages/newmessages' %>
+</div>
+<div id="interface-2" class="interface">
+    <%= render 'chats/chat' %>
+    <div class="search-container">
+        <%= button_tag '+', id: 'toggle-search', class: 'plus-button' %>
+        <%= form_with url: chats_path, method: :post, class: 'search-form', local: false do  |form| %>
+            <div class="form-group position-relative">
+            <%= form.text_field :query, class: 'search-bar', placeholder: 'Search...', id: 'search-bar', autocomplete: 'off' %>
+            <ul id="suggestions" class="dropdown-menu"></ul>
+            </div>
+        <% end %>
+    </div>
+</div>
+
+<div class="chat-section">
+
+</div>

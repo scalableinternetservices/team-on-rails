@@ -6,9 +6,7 @@
 
   <%username = ""%>
   <%if chat.user1_id == @current_user.id %>
-    <div class="chat-card">
       <% username = User.find(chat.user2_id).username %>
-    </div>
   <%else%>
       <% username = User.find(chat.user1_id).username %>
   <%end%>

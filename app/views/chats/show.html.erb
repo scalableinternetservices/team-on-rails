@@ -17,6 +17,17 @@
     padding-right: 10px;
 
   }
+  .messageright{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end; 
+  }
+
+  .messageleft{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start; 
+  }
 
 .middle {
     display: inline-block;
@@ -81,11 +92,16 @@ textarea{
     <%@messages.each do |message| %>
         <%if message.user_id == @current_user.id %>
             <div class=" right">
+              <div class = "messageright">
                 <%=render message%>
+              </div>
             </div>
         <%else%>
             <div class=" left">
+              <div class = "messageleft">
+
                 <%=render message%>
+              </div>
             </div>
         <%end%>
     <%end%>
@@ -95,7 +111,7 @@ textarea{
 <div class ="bottom">
 <%= form_with(model: @message, url: create_message_chat_path(@chat), local: true, id: 'message-form') do |form| %>
   <div class="form-group">
-    <%= form.text_area :body, rows: 3, class: 'chat', placeholder: 'Type your message...', id: 'message-body' %>
+    <%= form.text_area :body, rows: 3, class: 'chat', placeholder: 'Type your message...', id: 'message-body', autofocus: true %>
   </div>
 <% end %>
 

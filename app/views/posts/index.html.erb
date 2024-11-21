@@ -17,6 +17,7 @@
     width: 45%; 
     background-color: #f0f0f0;
     padding: 10px;
+    justify-content: center;
   }
 
   .right {
@@ -34,9 +35,7 @@
     background: white;
     border-radius: 8px;
     box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-    padding-left: 24px;
-    padding-top: 24px;
-    padding-bottom: 12px;
+    padding: 24px;
   }
 
   .header {
@@ -48,7 +47,6 @@
   .post-title {
     font-size: 24px;
     font-weight: bold;
-    margin: 0;
   }
 
   .meta-text {
@@ -72,23 +70,24 @@
   .update-section {
     background: #f8f9fa;
     border-radius: 8px;
-    padding: 24px;
+    padding: 12px;
+    display: flex;
+    justify-content: space-between;
+
   }
 
   .post-section {
     background: #f8f9fa;
     border-radius: 8px;
-    padding-top: 40px;
+    padding-top: 24px;
     padding-left: 24px;
     text-align: center;
-    margin-top: 50px;
   }
 
   .post-title {
     font-size: 18px;
     font-weight: 600;
     margin-bottom: 16px;
-    padding-left: 24px;
     text-align: center;
   }
 
@@ -105,7 +104,7 @@
     border-color: #4a90e2;
     box-shadow: 0 0 0 3px rgba(74,144,226,0.2);
   }
-
+  
   .button {
     padding: 8px 16px;
     border-radius: 6px;
@@ -223,6 +222,7 @@
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
   }
 </style>
+
 
 <% if @current_user %>
   <div class="menu-bar">

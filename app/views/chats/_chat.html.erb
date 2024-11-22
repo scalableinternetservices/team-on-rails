@@ -1,0 +1,18 @@
+
+
+
+<% @chats.each do |chat| %>
+  <%= link_to chat, class: "card-link" do %>
+
+  <%username = ""%>
+  <%if chat.user1_id == @current_user.id %>
+      <% username = User.find(chat.user2_id).username %>
+  <%else%>
+      <% username = User.find(chat.user1_id).username %>
+  <%end%>
+  <div class="chat-card">
+      <div><%=username%></div>
+  </div>
+<%end%>
+
+<%end%>

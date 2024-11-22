@@ -3,7 +3,6 @@ class Chat < ApplicationRecord
   belongs_to :user2, class_name: 'User'
   has_many :messages, dependent: :destroy
 
-  # Ensures user1_id is always less than user2_id
   before_save :ensure_user_order
 
   private

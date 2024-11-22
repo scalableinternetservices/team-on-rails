@@ -1,0 +1,16 @@
+<%if @newmessages.count == 0%>
+    <h3>No new messages</h3>
+<%else%>
+    <% @newmessages.each do |newmessage| %>
+        <% chat = Chat.find(newmessage.chat_id)%>
+        <%= link_to chat_path(chat), class: "card-link" do %>
+    
+        <div class="message-card">
+
+            <div><%= newmessage.body %></div>
+            <div class = "meta-text">from: <%= User.find(newmessage.user_id).username %></div>
+        
+        </div>
+        <%end%>
+    <%end%>
+<%end%>

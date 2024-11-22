@@ -9,7 +9,6 @@ Rails.application.routes.draw do
   get "service-worker" => "rails/pwa#service_worker", as: :pwa_service_worker
   get "manifest" => "rails/pwa#manifest", as: :pwa_manifest
 
-  # Defines the root path route ("/")
   root 'posts#index'
 
   get '/login', to: 'sessions#new'
@@ -26,19 +25,17 @@ Rails.application.routes.draw do
 
   get '/profile', to: 'users#index', as: 'profile'
 
-  # get '/posts', to: 'posts#index'
-  # post '/posts', to: 'posts#create'
-  # get '/posts/:id', to: 'posts#show', as: 'post'
-
-  # delete '/posts/:id', to: 'posts#destroy'
-  # post '/posts/:id', to: 'posts#update'
   resources :posts do
     resources :comments
   end
 
   resources :chats do
     resources :messages
+    post 'create_message', on: :member
   end
-  patch 'update_role', to: 'users#update_role'
 
+  get 'search', to: 'users#search'
+  get 'new_chat', to: 'chats#new'
+  patch 'update_role', to: 'users#update_role'
+  
 end

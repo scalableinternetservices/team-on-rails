@@ -1,233 +1,240 @@
 <style>
-  .container {
-    max-width: 1000px;
-    margin: 0 auto;
-    padding: 24px;
-    margin-bottom: 80px;
-  }
+    .container {
+        max-width: 1000px;
+        margin: 0 auto;
+        padding: 24px;
+        margin-bottom: 80px;
+    }
 
-  .sidebyside {
-    display: flex; 
-    justify-content: space-between; 
-    align-items: flex-start; 
-    border: 1px solid #ccc; 
-    padding: 20px; 
-  }
+    .sidebyside {
+        display: flex;
+        justify-content: space-evenly;
+        align-items: flex-start;
+        padding: 20px 0px;
+    }
 
-  .left {
-    width: 45%; 
-    background-color: #f0f0f0;
-    padding: 10px;
-    justify-content: center;
-  }
+    .left {
+        width: 45%;
+        background-color: #f0f0f0;
+        padding: 10px;
+        justify-content: center;
+    }
 
-  .right {
-    width: 45%;
-    background-color: #e0e0e0; 
-    padding: 10px;
-    display: flex;
-    jusitfy-content: center;
-    align-items: center;
-    flex-direction: column;
-    text-align: center;
-  }
+    .right {
+        width: 45%;
+        background-color: #f0f0f0;
+        padding: 10px;
+        display: flex;
+        jusitfy-content: center;
+        align-items: center;
+        flex-direction: column;
+        text-align: center;
+    }
 
-  .card {
-    background: white;
-    border-radius: 8px;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-    padding: 24px;
-  }
+    .card {
+        background: white;
+        border-radius: 8px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        padding: 24px;
+    }
 
-  .header {
-    border-bottom: 1px solid #eee;
-    padding-bottom: 16px;
-    margin-bottom: 24px;
-  }
+    .header {
+        border-bottom: 1px solid #eee;
+        padding-bottom: 16px;
+        margin-bottom: 24px;
+    }
 
-  .post-title {
-    font-size: 24px;
-    font-weight: bold;
-  }
+    .post-title {
+        font-size: 24px;
+        font-weight: bold;
+    }
 
-  .meta-text {
-    font-size: 14px;
-    color: #666;
-  }
+    .meta-text {
+        font-size: 14px;
+        color: #666;
+    }
 
-  .meta-text .author {
-    font-weight: 600;
-  }
+    .meta-text .author {
+        font-weight: 600;
+    }
 
-  .post-content {
-    margin-bottom: 32px;
-  }
+    .post-content {
+        margin-bottom: 32px;
+    }
 
-  .post-body {
-    font-size: 18px;
-    font-weight: 600;
-  }
+    .post-body {
+        font-size: 18px;
+        font-weight: 600;
+    }
 
-  .update-section {
-    background: #f8f9fa;
-    border-radius: 8px;
-    padding: 12px;
-    display: flex;
-    justify-content: space-between;
+    .update-section {
+        background: #f8f9fa;
+        border-radius: 8px;
+        padding: 12px;
+        display: flex;
+        justify-content: space-evenly;
 
-  }
+    }
 
-  .post-section {
-    background: #f8f9fa;
-    border-radius: 8px;
-    padding-top: 40px;
-    padding-left: 24px;
-    text-align: center;
-    margin-top: 50px;
-  }
+    .post-section {
+        background: #f8f9fa;
+        border-radius: 8px;
+        padding-top: 40px;
+        padding-left: 24px;
+        text-align: center;
+        margin-top: 50px;
+    }
 
-  .post-title {
-    font-size: 18px;
-    font-weight: 600;
-    margin-bottom: 16px;
-    text-align: center;
-  }
+    .post-title {
+        font-size: 18px;
+        font-weight: 600;
+        margin-bottom: 16px;
+        text-align: center;
+    }
 
-  .text-area {
-    width: 100%;
-    padding: 8px;
-    border: 1px solid #ddd;
-    border-radius: 6px;
-    margin-bottom: 16px;
-  }
+    .text-area {
+        width: 100%;
+        padding: 8px;
+        border: 1px solid #ddd;
+        border-radius: 6px;
+        margin-bottom: 16px;
+    }
 
-  .text-area:focus {
-    outline: none;
-    border-color: #4a90e2;
-    box-shadow: 0 0 0 3px rgba(74,144,226,0.2);
-  }
-  
-  .button {
-    padding: 8px 16px;
-    border-radius: 6px;
-    cursor: pointer;
-    border: none;
-    font-weight: 500;
-    text-decoration: none;
-  }
+    .text-area:focus {
+        outline: none;
+        border-color: #4a90e2;
+        box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.2);
+    }
 
-  .button-blue {
-    background: #4a90e2;
-    color: white;
-  }
+    .button {
+        padding: 8px 16px;
+        border-radius: 6px;
+        cursor: pointer;
+        border: none;
+        font-weight: 500;
+        text-decoration: none;
+    }
 
-  .button-blue:hover {
-    background: #357abd;
-  }
+    .button-blue {
+        background: #4a90e2;
+        color: white;
+    }
 
-  .button-red {
-    color: #dc3545;
-    border: 1px solid #dc3545;
-    background: white;
-  }
+    .button-blue:hover {
+        background: #357abd;
+    }
 
-  .button-red:hover {
-    background: #fff5f5;
-  }
+    .button-red {
+        color: #dc3545;
+        border: 1px solid #dc3545;
+        background: white;
+    }
 
-  .button-logout {
-    color: #dc3545;
-    border: 1px solid #dc3545;
-    background: #dc3545;
-    color: white;
-    margin-right: 50px;
-    padding-top: 10px;
-  }
+    .button-red:hover {
+        background: #fff5f5;
+    }
 
-  .button-logout:hover {
-    background: #b52d3a;
-  }
+    .button-logout {
+        color: #dc3545;
+        border: 1px solid #dc3545;
+        background: #dc3545;
+        color: white;
+        margin-right: 50px;
+        padding-top: 10px;
+    }
 
-  .comments-section {
-    margin-top: 32px;
-  }
+    .button-logout:hover {
+        background: #b52d3a;
+    }
 
-  .comments-title {
-    font-size: 18px;
-    font-weight: 600;
-    margin-bottom: 16px;
-  }
+    .comments-section {
+        margin-top: 32px;
+    }
 
-  .comment-list {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-  }
+    .comments-title {
+        font-size: 18px;
+        font-weight: 600;
+        margin-bottom: 16px;
+    }
 
-  .comment-item {
-    background: #f8f9fa;
-    padding: 16px;
-    border-radius: 6px;
-    margin-bottom: 12px;
-  }
+    .comment-list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
 
-  .no-comments {
-    color: #666;
-    font-style: italic;
-  }
+    .comment-item {
+        background: #f8f9fa;
+        padding: 16px;
+        border-radius: 6px;
+        margin-bottom: 12px;
+    }
 
-  .alert {
-    background-color: #f8d7da;
-    color: #721c24;
-    padding: 12px;
-    border: 1px solid #f5c6cb;
-    border-radius: 4px;
-    margin-bottom: 16px;
-  }
+    .no-comments {
+        color: #666;
+        font-style: italic;
+    }
 
-  .button-container {
-    display: flex;
-    justify-content: flex-end;
-  }
+    .alert {
+        background-color: #f8d7da;
+        color: #721c24;
+        padding: 12px;
+        border: 1px solid #f5c6cb;
+        border-radius: 4px;
+        margin-bottom: 16px;
+    }
 
-  .logged-in {
-    font-size: 18px;
-  }
+    .button-container {
+        display: flex;
+        justify-content: flex-end;
+    }
 
-  .card-link {
-    text-decoration: none;
-    color: inherit;
-    display: block;
-  }
+    .logged-in {
+        font-size: 18px;
+    }
 
-  .card {
-    transition: box-shadow 0.2s ease;
-  }
+    .card-link {
+        color: inherit;
+        text-decoration: none;
+    }
 
-  .card:hover {
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-    cursor: pointer;
-  }
+    .card-link:hover {
+        cursor: pointer
+    }
 
-  .menu-bar {
-    position: absolute; 
-    top: 0;
-    left: 0;
-    width: 100%; 
-    background-color: #333; 
-    color: white; 
-    padding: 10px 20px; 
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    z-index: 1000;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-  }
+    .card-header-comment {
+        padding: 10px;
+        border: 1px solid grey;
+        border-radius: 8px;
+    }
+
+    .card {
+        transition: box-shadow 0.2s ease;
+    }
+
+    .card:hover {
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .menu-bar {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        background-color: #333;
+        color: white;
+        padding: 10px 20px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        z-index: 1000;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    }
 </style>
 
 
 <% if @current_user %>
-  <div class="menu-bar">
+<div class="menu-bar">
     <p class="logged-in">Currently logged in as: <%= @current_user.username %></p>
 
     <%= link_to "Logout", logout_path, class: "button button-logout", 
@@ -235,49 +242,64 @@
           turbo_method: :delete,
           turbo_confirm: "Are you sure you want logout?"
     } %>
-  </div>
+</div>
 
-  <div class="post-section">
+<div class="post-section">
     <%= render 'posts/form' %>
-  </div>
+
+</div>
 
 
-  <div class = "sidebyside">
-    <div class = "left">
-      <% @posts.each do |post| %>
+<div class="sidebyside">
+    <div class="left">
+        <% if @posts.count != 0%>
+        <% @posts.each do |post| %>
+
+
         <div class="container">
-          <%= link_to post_path(post), class: "card-link" do %>
-          <article class="card">
-            <header class="header">
-              <h1 class="post-title">Post <%= post.id %></h1>
-              <p class="meta-text"> Posted by: <%= post.username %> </p>
-              <p class="meta-text"> Last updated: <%= post.updated_at.strftime("%B %d, %Y, %I:%M %p") %> </p> 
-            </header>
 
-            <div class="post-content">
-              <h2 class="post-body"> <%= post.body %> </h2>
-            </div>
+            <article class="card">
 
-            <p class="meta-text"> Comments: <%= post.comments.count %> </p>
-            <br>
-            <br>
-            <% if @current_user.username == post.username %>
-              <div class="update-section">
-                <%= link_to "Update Post", post_path(post), class: "button button-blue" %>
-                <%= link_to "Delete Post", post_path(post), class: "button button-red", 
-                  data: {
-                  turbo_method: :delete,
-                  turbo_confirm: "Are you sure?"
-                  } %>
-              </div>
-            <% end %>
-          </article>
-          <%end%>
+                <%= link_to post_path(post), class: "card-link" do %>
+                <div class = "card-header-comment">
+                <header class="header">
+                    <h1 class="post-title">Post <%= post.id %></h1>
+                    <p class="meta-text"> Posted by: <%= post.username %> </p>
+                    <p class="meta-text"> Last updated: <%= post.updated_at.strftime("%B %d, %Y, %I:%M %p") %> </p>
+                </header>
+
+                <div class="post-content">
+                    <h2 class="post-body"> <%= post.body %> </h2>
+                </div>
+
+                <p class="meta-text"> Comments: <%= post.comments.count %> </p>
+                <br>
+                <br>
+                </div>
+                <%end%>
+
+                <% if @current_user.username == post.username %>
+                <div class="update-section">
+                    <%= link_to "Update Post", post_path(post), class: "button button-blue" %>
+                    <%= link_to "Delete Post", post_path(post), class: "button button-red", 
+                      data: {
+                      turbo_method: :delete,
+                      turbo_confirm: "Are you sure?"
+                      } %>
+                </div>
+                <% end %>
+            </article>
+
         </div>
-      <% end %>
+        <%end %>
     </div>
-    <div class = "right">
-      <h2> Chats are gonna be here </h2>
+    <%else%>
+    <div class="left">
+        <h2>"No posts yet"</h2>
     </div>
-  </div>
+    <%end%>
+    <div class="right">
+        <%=render 'chats/messagechat'%>
+    </div>
+</div>
 <%end%>

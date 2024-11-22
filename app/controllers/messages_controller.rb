@@ -15,7 +15,6 @@ class MessagesController < ApplicationController
     def new
       @message = @chat.messages.build
     end
-
   
     private
   

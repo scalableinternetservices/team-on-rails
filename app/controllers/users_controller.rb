@@ -1,10 +1,9 @@
 class UsersController < ApplicationController
   before_action :require_login
-
+  
   def index
-    @current_user = User.find_by(id: session[:user_id])
-    @posts = @current_user.posts
     @meetings = @current_user.meetings
+    @posts = @current_user.posts.order(created_at: :desc)
     @chats = Chat.where("user1_id = ? OR user2_id = ?", @current_user.id, @current_user.id)
     @unresponded_chats = @chats.where("last_message_user_id != ?", @current_user.id)
     @newmessages = @unresponded_chats.map do |chat| 
@@ -39,11 +38,19 @@ class UsersController < ApplicationController
       end
     end
   end
+  
   private 
+  
   def require_login
     unless session[:user_id] != nil
       redirect_to login_path 
+  end
+
+  def update_role
+    @current_user.update(role: params[:role])
+    respond_to do |format|
+      format.turbo_stream { render turbo_stream: turbo_stream.replace('role-selector', 
+        partial: 'users/role_selector', locals: { user: @current_user }) }
     end
-    @current_user = User.find_by(id: session[:user_id])
   end
 end

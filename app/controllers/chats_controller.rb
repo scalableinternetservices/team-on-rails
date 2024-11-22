@@ -81,5 +81,5 @@ class ChatsController < ApplicationController
 
     def chat_params
         params.require(:chat).permit(:query)  # Adjust to your Chat model's attributes
-      end
+     end
 end

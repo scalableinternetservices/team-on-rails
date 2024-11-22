@@ -26,6 +26,7 @@ Rails.application.routes.draw do
   end
 
   get '/profile', to: 'users#index', as: 'profile'
+  get '/profile/:username', to: 'users#show', as: 'user_profile'
 
   resources :posts do
     resources :comments

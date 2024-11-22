@@ -1,0 +1,16 @@
+<div class="nav-bar">
+  <%= link_to posts_path, class: "nav-item #{current_page?(posts_path) ? 'active' : ''}" do %>
+    <i class="fas fa-newspaper"></i>
+    <span>Posts</span>
+  <% end %>
+  
+  <%= link_to meetings_path, class: "nav-item #{current_page?(meetings_path) ? 'active' : ''}" do %>
+    <i class="fas fa-users"></i>
+    <span>Meetings</span>
+  <% end %>
+  
+  <%= link_to profile_path, class: "nav-item #{current_page?(profile_path) ? 'active' : ''}" do %>
+    <i class="fas fa-user"></i>
+    <span>Profile</span>
+  <% end %>
+</div>

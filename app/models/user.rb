@@ -8,4 +8,14 @@ class User < ApplicationRecord
 
     validates :username, presence: true, uniqueness: true
     validates :password, presence: true, length: { minimum: 8 }
+     
+    validates :role, inclusion: { in: ['student', 'instructor'] }
+    
+    def student?
+        role == 'student'
+    end
+    
+    def instructor?
+        role == 'instructor'
+    end
 end

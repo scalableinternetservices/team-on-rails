@@ -24,7 +24,7 @@ Rails.application.routes.draw do
     end
   end
 
-  get '/profile', to: 'users#index', as: 'user_profile_path'
+  get '/profile', to: 'users#index', as: 'profile'
 
   # get '/posts', to: 'posts#index'
   # post '/posts', to: 'posts#create'
@@ -39,5 +39,6 @@ Rails.application.routes.draw do
   resources :chats do
     resources :messages
   end
+  patch 'update_role', to: 'users#update_role'
 
 end

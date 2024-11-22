@@ -11,6 +11,19 @@ class UsersController < ApplicationController
     end.flatten
   end
 
+  def show
+    @user = User.find_by(username: params[:username])
+    if @user
+      @meetings = @user.meetings
+      @posts = @user.posts.order(created_at: :desc)
+      @chats = Chat.where("user1_id = ? OR user2_id = ?", @user.id, @user.id)
+      @unresponded_chats = @chats.where("last_message_user_id != ?", @user.id)
+      @newmessages = @unresponded_chats.map do |chat| 
+        Message.find(chat.last_message_id)
+      end.flatten
+    end
+  end
+
   def create
     # First check if username already exists
     if User.exists?(username: params[:username])

@@ -1,3 +1,14 @@
+<style>
+    input[type="submit"] {
+        background-color: #007bff; 
+        color: white;
+        border: none; 
+        border-radius: 5px; 
+        padding: 8px 18px; 
+        font-size: 16px;
+    }
+</style>
+
 <%= form_with(model: Post.new, url: posts_path, method: :post) do |form| %>
     <div>
       <%= form.text_area :body, rows: 5, cols: 30 %>

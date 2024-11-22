@@ -286,9 +286,9 @@
 </style>
 
 
-<% if @current_user %>
+<% if @user %>
     <div class="menu-bar">
-        <p class="logged-in"> <%= @current_user.username %>'s Profile</p>
+        <p class="logged-in"> <%= @user.username %>'s Profile</p>
 
         <%= link_to "Logout", logout_path, class: "button button-logout", 
             data: {
@@ -301,12 +301,12 @@
     <div class="container">
         <div class="role-display">
             <div class="role-title">
-                Your Role: <span class="role-badge"><%= @current_user.role.capitalize %></span>
+                Their Role: <span class="role-badge"><%= @user.role.capitalize %></span>
             </div>
         </div>
     </div>
 
-    <h2 class="sub-profile-title">My Meetings</h2>
+    <h2 class="sub-profile-title"> <%= @user.username%>'s Meetings</h2>
 
     <% @meetings.each do |meeting| %>
         <div class="container">
@@ -370,8 +370,8 @@
                 </div>
 
                 <div class="update-section">
-                <% if meeting.users.include?(@current_user) %>
-                    <% if meeting.users.first == @current_user %>
+                <% if meeting.users.include?(@user) %>
+                    <% if meeting.users.first == @user %>
                     <%= link_to "Edit Meeting", edit_meeting_path(meeting), class: "button button-blue", data: { turbo: false } %>
                     <%= link_to "Cancel Meeting", meeting_path(meeting), class: "button button-red", 
                         data: {
@@ -396,7 +396,7 @@
     <% end %>
 
     <hr class="dashed-line">
-    <h2 class="sub-profile-title">My Posts</h2>
+    <h2 class="sub-profile-title"> <%= @user.username%>'s Posts</h2>
 
     <% @posts.each do |post| %>
         <div class="container">
@@ -404,7 +404,7 @@
 
         <article class="card">
             <header class="header">
-            <h1 class="post-title">Post <%= post.id %></h1>
+            <!--  <h1 class="post-title">Post <%= post.id %></h1> -->
             <p class="meta-text"> Posted by: <%= post.username %> </p>
             <p class="meta-text"> Last updated: <%= post.updated_at.strftime("%B %d, %Y, %I:%M %p") %> </p> 
             </header>
@@ -430,8 +430,5 @@
         <% end %>
         </div>
     <% end %>
-    <hr class="dashed-line">
-    <h2 class="sub-profile-title">My Messages</h2>
-    <%=render 'chats/messagechat'%>
     </div>
 <% end %>

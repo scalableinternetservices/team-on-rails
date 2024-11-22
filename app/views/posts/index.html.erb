@@ -3,7 +3,7 @@
         max-width: 1000px;
         margin: 0 auto;
         padding: 24px;
-        margin-bottom: 80px;
+        margin-bottom: 40px;
     }
 
     .sidebyside {
@@ -246,7 +246,6 @@
 
 <div class="post-section">
     <%= render 'posts/form' %>
-
 </div>
 
 
@@ -264,7 +263,9 @@
                 <div class = "card-header-comment">
                 <header class="header">
                     <h1 class="post-title">Post <%= post.id %></h1>
-                    <p class="meta-text"> Posted by: <%= post.username %> </p>
+                    <p class="meta-text"> Posted by: 
+                        <%= link_to post.username, user_profile_path(post.username), class: "username-link" %>
+                    </p>
                     <p class="meta-text"> Last updated: <%= post.updated_at.strftime("%B %d, %Y, %I:%M %p") %> </p>
                 </header>
 

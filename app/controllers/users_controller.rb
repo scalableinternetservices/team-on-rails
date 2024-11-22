@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  before_action :require_login
+  skip_before_action :require_login, only: [:create]
   
   def index
     @meetings = @current_user.meetings
@@ -9,6 +9,33 @@ class UsersController < ApplicationController
     @newmessages = @unresponded_chats.map do |chat| 
       Message.find(chat.last_message_id)
     end.flatten
+  end
+
+  def create
+    # First check if username already exists
+    if User.exists?(username: params[:username])
+      redirect_to signup_path, alert: 'Username already taken'
+      return
+    end
+
+    # Check password length
+    if params[:password].length < 8
+      redirect_to signup_path, alert: 'Password must be at least 8 characters long'
+      return
+    end
+
+    @user = User.new(
+      username: params[:username],
+      password: params[:password],
+      role: params[:role].downcase
+    )
+
+    if @user.save
+      session[:user_id] = @user.id
+      redirect_to root_path, notice: 'Successfully created account!'
+    else
+      redirect_to signup_path, alert: 'Error creating account'
+    end
   end
   
   def search

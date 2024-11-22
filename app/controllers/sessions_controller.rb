@@ -10,7 +10,7 @@ class SessionsController < ApplicationController
   end
 
   def current_user
-    @current_user
+    
   end
 
   def new
@@ -50,12 +50,7 @@ class SessionsController < ApplicationController
     unless session[:user_id] != nil
       redirect_to login_path 
     end
+    @current_user = User.find_by(id: session[:user_id])
   end
 
-  # private
-  #   def session_params
-  #     params.require(:session).permit(:username)
-  #   end
-
-  
 end

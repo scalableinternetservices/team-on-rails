@@ -44,6 +44,8 @@ class UsersController < ApplicationController
   def require_login
     unless session[:user_id] != nil
       redirect_to login_path 
+    end
+    @current_user = User.find_by(id: session[:user_id])
   end
 
   def update_role

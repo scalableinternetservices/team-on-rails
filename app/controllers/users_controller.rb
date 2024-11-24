@@ -9,6 +9,7 @@ class UsersController < ApplicationController
     @newmessages = @unresponded_chats.map do |chat| 
       Message.find(chat.last_message_id)
     end.flatten
+
   end
 
   def show
@@ -16,11 +17,13 @@ class UsersController < ApplicationController
     if @user
       @meetings = @user.meetings
       @posts = @user.posts.order(created_at: :desc)
-      @chats = Chat.where("user1_id = ? OR user2_id = ?", @user.id, @user.id)
-      @unresponded_chats = @chats.where("last_message_user_id != ?", @user.id)
-      @newmessages = @unresponded_chats.map do |chat| 
-        Message.find(chat.last_message_id)
-      end.flatten
+      if (@user.id < @current_user.id)
+        @chats = Chat.where("user1_id = ? OR user2_id = ?", @user.id, @current_user.id)
+      else 
+        @chats = Chat.where("user1_id = ? OR user2_id = ?", @current_user.id, @user.id)
+      end
+    else 
+      redirect_to root_path, alert: 'User not found'
     end
   end
 
@@ -29,7 +32,7 @@ class UsersController < ApplicationController
     if User.exists?(username: params[:username])
       redirect_to signup_path, alert: 'Username already taken'
       return
-    end
+    end 
 
     # Check password length
     if params[:password].length < 8

@@ -1,21 +1,21 @@
 class StarsController < ApplicationController
   before_action :require_login
+  before_action :set_post
   
   def create
-    @post = Post.find(params[:post_id])
     @current_user.stars.create(post: @post)
-    respond_to do |format|
-      format.turbo_stream
-      format.html { redirect_back(fallback_location: posts_path) }
-    end
+    redirect_back(fallback_location: posts_path)
   end
 
   def destroy
+    star = @current_user.stars.find_by(post: @post)
+    star&.destroy # Using safe navigation operator
+    redirect_back(fallback_location: posts_path)
+  end
+
+  private
+
+  def set_post
     @post = Post.find(params[:post_id])
-    @current_user.stars.find_by(post: @post).destroy
-    respond_to do |format|
-      format.turbo_stream
-      format.html { redirect_back(fallback_location: posts_path) }
-    end
   end
 end

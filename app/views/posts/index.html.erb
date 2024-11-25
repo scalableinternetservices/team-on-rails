@@ -274,7 +274,11 @@
         padding: 5px;
         font-size: 1.2em;
         color: #666;
-        transition: transform 0.2s;
+        transition: all 0.2s ease;
+    }
+
+    .star-button:active {
+        transform: scale(0.9);
     }
 
     .star-button:hover {
@@ -283,6 +287,13 @@
 
     .star-button.starred {
         color: #ffd700;
+        animation: star-pulse 0.3s ease-out;
+    }
+
+    @keyframes star-pulse {
+        0% { transform: scale(1); }
+        50% { transform: scale(0.9); }
+        100% { transform: scale(1); }
     }
 
     .card {

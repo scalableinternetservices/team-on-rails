@@ -6,5 +6,6 @@ class CreateStars < ActiveRecord::Migration[7.1]
 
       t.timestamps
     end
+    add_index :stars, [:user_id, :post_id], unique: true
   end
-end
+end 

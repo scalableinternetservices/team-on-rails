@@ -4,14 +4,22 @@ class PostsController < ApplicationController
   before_action :set_post, only: [:show, :edit, :update, :destroy]
 
   def index
-    @posts = Post.order("created_at DESC").all
     @current_user = User.find_by(id: session[:user_id])
+    
+    @posts = case params[:filter]
+             when 'instructor'
+               Post.joins(:user).where(users: { role: 'instructor' }).order('created_at DESC')
+             when 'student'
+               Post.joins(:user).where(users: { role: 'student' }).order('created_at DESC')
+             else
+               Post.order('created_at DESC').all
+             end
+    
     @chats = Chat.where("user1_id = ? OR user2_id = ?", @current_user.id, @current_user.id)
     @unresponded_chats = @chats.where("last_message_user_id != ?", @current_user.id)
     @newmessages = @unresponded_chats.map do |chat| 
       Message.find(chat.last_message_id)
     end.flatten
-      
   end
 
   def show

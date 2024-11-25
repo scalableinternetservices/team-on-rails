@@ -1,5 +1,7 @@
 class PostsController < ApplicationController
   before_action :require_login
+  before_action :set_current_user
+  before_action :set_post, only: [:show, :edit, :update, :destroy]
 
   def index
     @posts = Post.order("created_at DESC").all
@@ -30,6 +32,14 @@ class PostsController < ApplicationController
     @post = Post.new
   end
 
+  def edit
+    unless can_manage_post?(@post)
+      flash[:alert] = "You don't have permission to edit this post"
+      redirect_to posts_path
+      return
+    end
+  end
+
   def create
     @current_user = User.find_by(id: session[:user_id]) # find user
 
@@ -50,7 +60,11 @@ class PostsController < ApplicationController
   end
 
   def update
-    @post = Post.find(params[:id])
+    unless can_manage_post?(@post)
+      flash[:alert] = "You don't have permission to edit this post"
+      redirect_to posts_path
+      return
+    end
 
     if @post.update(post_params) 
       redirect_to post_path 
@@ -60,9 +74,13 @@ class PostsController < ApplicationController
   end
 
   def destroy
-    @post = Post.find(params[:id])
-    @post.destroy
+    unless can_manage_post?(@post)
+      flash[:alert] = "You don't have permission to delete this post"
+      redirect_to posts_path
+      return
+    end
 
+    @post.destroy
     redirect_to root_path, status: :see_other
   end
   
@@ -76,6 +94,23 @@ class PostsController < ApplicationController
 
     def post_params
       params.require(:post).permit(:body, :username, :num_comments, :user_id)
+    end
+
+    def set_current_user
+      @current_user = User.find_by(id: session[:user_id])
+      unless @current_user
+        redirect_to login_path
+        return
+      end
+    end
+
+    def set_post
+      @post = Post.find(params[:id])
+    end
+
+    def can_manage_post?(post)
+      return false unless @current_user
+      @current_user.instructor? || @current_user.username == post.username
     end
 
 end

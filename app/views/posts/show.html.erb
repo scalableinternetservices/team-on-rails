@@ -212,7 +212,7 @@
       <h2 class="post-body"><%= @post.body %></h2>
     </div>
 
-    <% if @current_user.username == @post.username %>
+    <% if @current_user.instructor? || @current_user.username == @post.username %>
       <div class="update-section">
         <h3 class="update-title">Update Post</h3>
         <%= form_with(model: @post, method: :put) do |form| %>

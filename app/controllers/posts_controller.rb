@@ -11,6 +11,8 @@ class PostsController < ApplicationController
                Post.joins(:user).where(users: { role: 'instructor' }).order('created_at DESC')
              when 'student'
                Post.joins(:user).where(users: { role: 'student' }).order('created_at DESC')
+             when 'starred'
+               @current_user.starred_posts.order('created_at DESC')
              else
                Post.order('created_at DESC').all
              end

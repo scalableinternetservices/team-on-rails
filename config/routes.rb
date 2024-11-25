@@ -29,6 +29,8 @@ Rails.application.routes.draw do
   get '/profile/:username', to: 'users#show', as: 'user_profile'
 
   resources :posts do
+    resources :stars, only: [:create]
+    delete 'star', to: 'stars#destroy'
     resources :comments
   end
 

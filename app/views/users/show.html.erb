@@ -144,6 +144,28 @@
     details[open] .expand-icon {
         transform: rotate(180deg);
     }
+    .chat-container{
+        display: flex;
+        flex-direction: column;
+        align-text: center;
+    }
+    .chat-card {
+        display: inline-block;
+        max-width: 600px;
+        margin: 20px auto;
+        background: white;
+        border-radius: 8px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        padding: 5px 20px;
+        height: auto;
+        text-decoration:none;
+        color: inherit;
+
+    }
+
+     .chat-card:hover{
+        cursor: pointer;
+    }
 
     .attendees-list {
         border-top: 1px solid #eee;
@@ -304,6 +326,8 @@
                 Their Role: <span class="role-badge"><%= @user.role.capitalize %></span>
             </div>
         </div>
+        <div class="chat-container">
+        <%= link_to "Chat with #{@user.username}", chats_path(query:@user.username), method: :post, class: "chat-card", data: { turbo_method: :post} %>        </div>
     </div>
 
     <h2 class="sub-profile-title"> <%= @user.username%>'s Meetings</h2>

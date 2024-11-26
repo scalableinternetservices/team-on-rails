@@ -6,7 +6,7 @@
   </clients>
 
   <servers>
-    <server host="yunhaoluo.eba-vxqrh727.us-west-2.elasticbeanstalk.com" port="443" type="ssl"></server>
+    <server host="ylnew.eba-vxqrh727.us-west-2.elasticbeanstalk.com" port="443" type="ssl"></server>
   </servers>
 
   <load>
@@ -43,8 +43,7 @@
   </load>
 
   <options>
-    <!-- Set connection timeout to 2 seconds -->
-    <option name="global_ack_timeout" value="2000"></option>
+    <option name="global_ack_timeout" value="3000"></option>
   </options>
 
   <sessions>
@@ -54,28 +53,39 @@
       <request><http method="GET" url="/meetings/"></http></request>
     </session>
 
-    <session name="user_workflow" probability="100" type="ts_http">
-      <request>
-        <http url="/login" method="GET"/>
-      </request>
-      <thinktime value="2" random="true"/>
+    <session name="user_workflow" weight="3" type="ts_http">
+      <setdynvars sourcetype="random_number" start="1" end="100">
+        <var name="rand_user"/>
+      </setdynvars>
 
       <request>
-        <http url="/signup" method="POST" contents="username=test_user&amp;password=123456789"/>
+        <dyn_variable name="authenticity_token"></dyn_variable>
+        <http method="GET" url="/login"></http>
+      </request>
+
+      <setdynvars code='fun({Pid,DynVars})->{ok,Val}=ts_dynvars:lookup(authenticity_token,DynVars),re:replace(Val,"[+]","%2B",[global,{return,list}]) end.' sourcetype="eval">
+        <var name="authenticity_token" />
+      </setdynvars>
+
+      <request subst="true">
+        <http url="/signup" version="1.1" method="POST"
+          contents="username=test_user%%_rand_user%%&amp;authenticity_token=%%_authenticity_token%%&amp;password=123456789"
+          content_type="application/x-www-form-urlencoded">
+        </http>
       </request>
       <thinktime value="3" random="true"/>
 
-      <request>
+      <request subst="true">
         <http url="/posts" method="GET"/>
       </request>
       <thinktime value="5" random="true"/>
 
-      <request>
+      <request subst="true">
         <http url="/meetings" method="GET"/>
       </request>
       <thinktime value="2" random="true"/>
 
-      <request>
+      <request subst="true">
         <http url="/profile" method="GET"/>
       </request>
       <thinktime value="3" random="true"/>

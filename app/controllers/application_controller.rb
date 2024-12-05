@@ -1,6 +1,7 @@
 class ApplicationController < ActionController::Base
     before_action :require_login
-    
+    skip_forgery_protection
+
     private
     
     def require_login

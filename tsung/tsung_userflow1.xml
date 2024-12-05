@@ -6,14 +6,14 @@
   </clients>
 
   <servers>
-    <server host="yunhaoluo.eba-vxqrh727.us-west-2.elasticbeanstalk.com" port="80" type="tcp"></server>
+    <server host="brennascholte2.eba-vxqrh727.us-west-2.elasticbeanstalk.com" port="80" type="tcp"></server>
   </servers>
 
   <load>
     <arrivalphase phase="1" duration="30" unit="second">
       <users arrivalrate="1" unit="second"></users>
     </arrivalphase>
-    <!-- <arrivalphase phase="2" duration="30" unit="second">
+    <arrivalphase phase="2" duration="30" unit="second">
       <users arrivalrate="2" unit="second"></users>
     </arrivalphase>
     <arrivalphase phase="3" duration="30" unit="second">
@@ -39,7 +39,7 @@
     </arrivalphase>
     <arrivalphase phase="10" duration="30" unit="second">
       <users arrivalrate="512" unit="second"></users>
-    </arrivalphase> -->
+    </arrivalphase>
   </load>
 
   <options>
@@ -52,7 +52,7 @@
         <var name="rand_user"/>
         </setdynvars>
 
-        Navigate to login/signup page
+        <!-- Navigate to login/signup page -->
         <request>
           <dyn_variable name="signup_authenticity_token" xpath="//head/meta[@name='csrf-token']/@content"></dyn_variable>
           <http method="GET" version="1.1" url="/login"></http>
@@ -62,7 +62,7 @@
           <var name="encoded_signup_authenticity_token" />
         </setdynvars>
 
-        Signup new user
+        <!-- Signup new user -->
         <request subst="true">
           <http url="/signup" version="1.1" method="POST"
               contents="authenticity_token=%%_encoded_signup_authenticity_token%%&amp;username=test_user%%_rand_user%%&amp;password=123456789&amp;role=Student&amp;commit=Sign+Up"
@@ -77,7 +77,7 @@
           <http url="/posts" version="1.1" method="GET"/>
         </request>
 
-        Create post
+        <!-- Create post -->
         <setdynvars code='fun({Pid,DynVars})->{ok,Val}=ts_dynvars:lookup(post_authenticity_token,DynVars),re:replace(Val,"[+]","%2B",[global,{return,list}]) end.' sourcetype="eval">
           <var name="encoded_post_authenticity_token" />
         </setdynvars>
@@ -89,7 +89,7 @@
           </http>
         </request>
 
-        View existing post
+        <!-- View existing post -->
         <request subst="true">
           <dyn_variable name="comment_authenticity_token" xpath="//head/meta[@name='csrf-token']/@content"></dyn_variable>
           <http url="/posts/1" version="1.1" method="GET"/>
@@ -97,7 +97,7 @@
 
         <thinktime value="2" random="true"></thinktime>
 
-        Create a comment on the post
+        <!-- Create a comment on the post -->
         <setdynvars code='fun({Pid,DynVars})->{ok,Val}=ts_dynvars:lookup(comment_authenticity_token,DynVars),re:replace(Val,"[+]","%2B",[global,{return,list}]) end.' sourcetype="eval">
           <var name="encoded_comment_authenticity_token" />
         </setdynvars>

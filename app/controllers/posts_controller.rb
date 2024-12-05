@@ -58,7 +58,7 @@ class PostsController < ApplicationController
 
     # puts "Post contents: #{@post.inspect}"
     if @post.save
-      redirect_to root_path
+      redirect_to post_path(@post)
       puts "Post created successfully"
     else
       # render :new, status: :unprocessable_entity # Return error

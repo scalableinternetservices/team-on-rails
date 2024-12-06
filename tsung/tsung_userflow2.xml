@@ -1,0 +1,146 @@
+<?xml version="1.0"?>
+<!DOCTYPE tsung SYSTEM "/usr/local/share/tsung/tsung-1.0.dtd" []>
+<tsung loglevel="debug">
+  <clients>
+    <client host="localhost" maxusers="32768" use_controller_vm="true" />
+  </clients>
+
+  <servers>
+    <server host="justincao.eba-vxqrh727.us-west-2.elasticbeanstalk.com" port="80" type="tcp"></server>
+  </servers>
+
+   <load>
+    <arrivalphase phase="1" duration="30" unit="second">
+      <users arrivalrate="1" unit="second"></users>
+    </arrivalphase>
+    <arrivalphase phase="2" duration="30" unit="second">
+      <users arrivalrate="2" unit="second"></users>
+    </arrivalphase>
+    <arrivalphase phase="3" duration="30" unit="second">
+      <users arrivalrate="4" unit="second"></users>
+    </arrivalphase>
+    <arrivalphase phase="4" duration="30" unit="second">
+      <users arrivalrate="8" unit="second"></users>
+    </arrivalphase>
+    <arrivalphase phase="5" duration="30" unit="second">
+      <users arrivalrate="16" unit="second"></users>
+    </arrivalphase>
+    <arrivalphase phase="6" duration="30" unit="second">
+      <users arrivalrate="32" unit="second"></users>
+    </arrivalphase>
+    <arrivalphase phase="7" duration="30" unit="second">
+      <users arrivalrate="64" unit="second"></users>
+    </arrivalphase>
+    <arrivalphase phase="8" duration="30" unit="second">
+      <users arrivalrate="128" unit="second"></users>
+    </arrivalphase>
+    <arrivalphase phase="9" duration="30" unit="second">
+      <users arrivalrate="256" unit="second"></users>
+    </arrivalphase>
+    <arrivalphase phase="10" duration="30" unit="second">
+      <users arrivalrate="512" unit="second"></users>
+    </arrivalphase>
+  </load>
+
+  <options>
+    <option name="global_ack_timeout" value="3000"></option>
+    <option name="log_requests" value="true"></option>
+  </options>
+
+  <sessions>
+
+    <session name="comments" weight="1" type="ts_http">
+         <!-- <setvars>
+                <var name="name">comment_tester</var>
+                <var name="password">123456789</var>
+            </setvars> -->
+        
+        <setdynvars sourcetype="random_number" start="1" end="1000000000000">  
+            <var name="rand_user1"/>
+            
+        </setdynvars>
+
+        <request>
+          <dyn_variable name="signup_authenticity_token" xpath="//head/meta[@name='csrf-token']/@content"></dyn_variable>
+          <http method="GET" version="1.1" url="/login"></http>
+        </request>
+
+        <setdynvars code='fun({Pid,DynVars})->{ok,Val}=ts_dynvars:lookup(signup_authenticity_token,DynVars),re:replace(Val,"[+]","%2B",[global,{return,list}]) end.' sourcetype="eval">
+          <var name="encoded_signup_authenticity_token" />
+        </setdynvars>
+
+        <request subst="true">
+          <http url="/signup" version="1.1" method="POST"
+              contents="authenticity_token=%%_encoded_signup_authenticity_token%%&amp;username=comment3_user%%_rand_user1%%&amp;password=123456789&amp;role=Student&amp;commit=Sign+Up"
+              content_type="application/x-www-form-urlencoded">
+          </http>
+        </request>
+
+
+
+
+        <setdynvars sourcetype="random_number" start="1" end="1000000000000">  
+            <var name="rand_user2"/>
+        </setdynvars>
+
+        <request>
+          <dyn_variable name="signup_authenticity_token1" xpath="//head/meta[@name='csrf-token']/@content"></dyn_variable>
+          <http method="GET" version="1.1" url="/login"></http>
+        </request>
+
+        <setdynvars code='fun({Pid,DynVars})->{ok,Val}=ts_dynvars:lookup(signup_authenticity_token,DynVars),re:replace(Val,"[+]","%2B",[global,{return,list}]) end.' sourcetype="eval">
+          <var name="encoded_signup_authenticity_token1" />
+        </setdynvars>
+
+        <request subst="true">
+          <http url="/signup" version="1.1" method="POST"
+              contents="authenticity_token=%%_encoded_signup_authenticity_token1%%&amp;username=3comment%%_rand_user2%%&amp;password=123456789&amp;role=Student&amp;commit=Sign+Up"
+              content_type="application/x-www-form-urlencoded">
+          </http>
+        </request>
+
+        <thinktime value="2" random="true"></thinktime>
+      
+        <request subst="true">
+          <dyn_variable name="chat_authenticity_token" xpath="//head/meta[@name='csrf-token']/@content"></dyn_variable>
+          <http url="/posts" version="1.1" method="GET"/>
+        </request>
+
+        <setdynvars code='fun({Pid,DynVars})->{ok,Val}=ts_dynvars:lookup(chat_authenticity_token,DynVars),re:replace(Val,"[+]","%2B",[global,{return,list}]) end.' sourcetype="eval">
+          <var name="encoded_chat_authenticity_token" />
+        </setdynvars>
+
+        
+        
+        <request subst="true">
+            <dyn_variable name="chatid" re="location:.*?/chats/(\d+)" />
+
+            <http url="/chats" version="1.1" method="POST"
+              contents="authenticity_token=%%_encoded_chat_authenticity_token%%&amp;query=comment3_user%%_rand_user1%%"
+              content_type="application/x-www-form-urlencoded" >
+          </http>
+        </request>
+
+        
+        
+        <thinktime value="2" random="true"></thinktime>
+
+        <request subst="true">
+          <dyn_variable name="message_auth_token" xpath="//head/meta[@name='csrf-token']/@content"></dyn_variable>
+          <http url="/posts" version="1.1" method="GET"/>
+        </request>
+
+        <setdynvars code='fun({Pid,DynVars})->{ok,Val}=ts_dynvars:lookup(message_auth_token,DynVars),re:replace(Val,"[+]","%2B",[global,{return,list}]) end.' sourcetype="eval">
+          <var name="encoded_message_auth_token" />
+        </setdynvars>
+
+        <request subst="true">
+            <http url="/chats/%%_chatid%%/create_message" version="1.1" method="POST"
+                    contents="authenticity_token=%%_encoded_message_auth_token%%&amp;message%5Bbody%5D=nice+message"
+                    content_type="application/x-www-form-urlencoded">
+            </http>
+        </request>
+
+    </session>
+  </sessions>
+</tsung>

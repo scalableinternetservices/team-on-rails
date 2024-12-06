@@ -23,6 +23,10 @@ class ChatsController < ApplicationController
         elsif otherUser.id == @current_user.id
             puts chats_path
             redirect_back(fallback_location:posts_path, alert: 'You cannot chat with yourself')
+        elsif Chat.where(user1_id: @current_user.id, user2_id: otherUser.id).exists?
+            redirect_to Chat.where(user1_id: @current_user.id, user2_id: otherUser.id).first
+        elsif Chat.where(user1_id: otherUser.id, user2_id: @current_user.id).exists?
+            redirect_to Chat.where(user1_id: otherUser.id, user2_id: @current_user.id).first
         else
             @chat = Chat.new(:user1_id => @current_user.id, :user2_id => otherUser.id)
             if @chat.save

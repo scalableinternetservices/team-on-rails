@@ -10,7 +10,9 @@ class PostsController < ApplicationController
              when 'instructor'
                Post.joins(:user).where(users: { role: 'instructor' }).order('posts.created_at DESC').page(params[:page])
              when 'student'
-               Post.joins(:user).where(users: { role: 'student' }).order('posts.created_at DESC').page(params[:page])
+               Post.joins(:user).where(users: { role: 'student' }).order('created_at DESC')
+             when 'starred'
+               @current_user.starred_posts.order('created_at DESC')
              else
                Post.order('created_at DESC').all.page(params[:page])
              end

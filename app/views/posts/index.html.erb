@@ -260,6 +260,45 @@
         border-color: #4a90e2;
         box-shadow: 0 0 0 2px rgba(74, 144, 226, 0.2);
     }
+
+    .star-section {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+    }
+
+    .star-button {
+        background: none;
+        border: none;
+        cursor: pointer;
+        padding: 5px;
+        font-size: 1.2em;
+        color: #666;
+        transition: all 0.2s ease;
+    }
+
+    .star-button:active {
+        transform: scale(0.9);
+    }
+
+    .star-button:hover {
+        transform: scale(1.1);
+    }
+
+    .star-button.starred {
+        color: #ffd700;
+        animation: star-pulse 0.3s ease-out;
+    }
+
+    @keyframes star-pulse {
+        0% { transform: scale(1); }
+        50% { transform: scale(0.9); }
+        100% { transform: scale(1); }
+    }
+
+    .card {
+        position: relative;
+    }
 </style>
 
 
@@ -286,7 +325,8 @@
         options_for_select([
           ['All Posts', ''],
           ['Instructor Posts', 'instructor'],
-          ['Student Posts', 'student']
+          ['Student Posts', 'student'],
+          ['Starred Posts', 'starred']
         ], params[:filter]),
         onchange: 'this.form.submit()',
         class: "filter-select"
@@ -334,6 +374,18 @@
                       } %>
                 </div>
                 <% end %>
+
+                <div class="star-section">
+                  <% if post.starred_by?(@current_user) %>
+                    <%= button_to post_star_path(post), method: :delete, class: "star-button starred" do %>
+                      <i class="fas fa-star"></i>
+                    <% end %>
+                  <% else %>
+                    <%= button_to post_stars_path(post), method: :post, class: "star-button" do %>
+                      <i class="far fa-star"></i>
+                    <% end %>
+                  <% end %>
+                </div>
             </article>
 
         </div>

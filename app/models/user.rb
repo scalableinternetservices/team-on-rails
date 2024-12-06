@@ -6,6 +6,9 @@ class User < ApplicationRecord
     has_many :chats_as_user1, class_name: 'Chat', foreign_key: 'user1_id'
     has_many :chats_as_user2, class_name: 'Chat', foreign_key: 'user2_id'
 
+    has_many :stars, dependent: :destroy
+    has_many :starred_posts, through: :stars, source: :post
+
     validates :username, presence: true, uniqueness: true
     validates :password, presence: true, length: { minimum: 8 }
      

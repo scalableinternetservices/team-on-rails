@@ -8,11 +8,11 @@ class PostsController < ApplicationController
     
     @posts = case params[:filter]
              when 'instructor'
-               Post.joins(:user).where(users: { role: 'instructor' }).order('created_at DESC')
+               Post.joins(:user).where(users: { role: 'instructor' }).order('posts.created_at DESC').page(params[:page])
              when 'student'
-               Post.joins(:user).where(users: { role: 'student' }).order('created_at DESC')
+               Post.joins(:user).where(users: { role: 'student' }).order('posts.created_at DESC').page(params[:page])
              else
-               Post.order('created_at DESC').all
+               Post.order('created_at DESC').all.page(params[:page])
              end
     
     @chats = Chat.where("user1_id = ? OR user2_id = ?", @current_user.id, @current_user.id)

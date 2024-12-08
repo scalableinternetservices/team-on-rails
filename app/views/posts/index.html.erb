@@ -279,7 +279,9 @@
 </div>
 
 <div class ="invisible">
-    <%=@lastpost.id%>
+    <%if @lastpost.present? %>
+        <%=@lastpost.id%>
+    <%end%>
 </div>
 <div class="filter-section">
   <%= form_tag posts_path, method: :get, class: "filter-form" do %>

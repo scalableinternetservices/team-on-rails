@@ -20,6 +20,7 @@ class PostsController < ApplicationController
     @newmessages = @unresponded_chats.map do |chat| 
       Message.find(chat.last_message_id)
     end.flatten
+    @lastpost= Post.last
   end
 
   def show

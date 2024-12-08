@@ -88,9 +88,12 @@ class PostsController < ApplicationController
       redirect_to posts_path
       return
     end
-
-    @post.destroy
-    redirect_to root_path, status: :see_other
+    if @post
+      @post.destroy
+      redirect_to posts_path, notice: "Post was successfully deleted."
+    else
+      redirect_to posts_path, alert: "Post not found."
+    end
   end
   
 

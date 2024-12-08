@@ -69,6 +69,10 @@ class PostsController < ApplicationController
   end
 
   def update
+    if @post.nil?
+      redirect_to posts_path, alert: "Post not found."
+      return
+    end
     unless can_manage_post?(@post)
       flash[:alert] = "You don't have permission to edit this post"
       redirect_to posts_path
@@ -83,6 +87,10 @@ class PostsController < ApplicationController
   end
 
   def destroy
+    if @post.nil?
+      redirect_to posts_path, alert: "Post not found."
+      return
+    end
     unless can_manage_post?(@post)
       flash[:alert] = "You don't have permission to delete this post"
       redirect_to posts_path
@@ -117,7 +125,7 @@ class PostsController < ApplicationController
     end
 
     def set_post
-      @post = Post.find(params[:id])
+      @post = Post.find_by(params[:id])
     end
 
     def can_manage_post?(post)

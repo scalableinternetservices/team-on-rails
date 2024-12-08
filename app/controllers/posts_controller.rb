@@ -125,7 +125,7 @@ class PostsController < ApplicationController
     end
 
     def set_post
-      @post = Post.find_by(params[:id])
+      @post = Post.find_by(id: params[:id])
     end
 
     def can_manage_post?(post)

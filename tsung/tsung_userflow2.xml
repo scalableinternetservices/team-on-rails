@@ -6,7 +6,7 @@
   </clients>
 
   <servers>
-    <server host="justincao.eba-vxqrh727.us-west-2.elasticbeanstalk.com" port="80" type="tcp"></server>
+    <server host="justin.eba-vxqrh727.us-west-2.elasticbeanstalk.com" port="80" type="tcp"></server>
   </servers>
 
    <load>
@@ -88,7 +88,7 @@
           <http method="GET" version="1.1" url="/login"></http>
         </request>
 
-        <setdynvars code='fun({Pid,DynVars})->{ok,Val}=ts_dynvars:lookup(signup_authenticity_token,DynVars),re:replace(Val,"[+]","%2B",[global,{return,list}]) end.' sourcetype="eval">
+        <setdynvars code='fun({Pid,DynVars})->{ok,Val}=ts_dynvars:lookup(signup_authenticity_token1,DynVars),re:replace(Val,"[+]","%2B",[global,{return,list}]) end.' sourcetype="eval">
           <var name="encoded_signup_authenticity_token1" />
         </setdynvars>
 

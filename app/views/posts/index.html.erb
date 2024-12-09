@@ -283,9 +283,7 @@
     <%= render 'posts/form' %>
 </div>
 
-<div class ="invisible">
-    <%=@lastpost.id%>
-</div>
+<div class ="invisible"><%if @lastpost.present? %><%=@lastpost.id%><%end%></div>
 <div class="filter-section">
   <%= form_tag posts_path, method: :get, class: "filter-form" do %>
     <%= select_tag :filter, 

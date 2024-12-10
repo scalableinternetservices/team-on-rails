@@ -6,7 +6,7 @@
   </clients>
 
   <servers>
-    <server host="yunhaoluo.eba-vxqrh727.us-west-2.elasticbeanstalk.com" port="80" type="tcp"></server>
+    <server host="yunhaoluo3.eba-vxqrh727.us-west-2.elasticbeanstalk.com" port="80" type="tcp"></server>
   </servers>
 
   <load>
@@ -32,10 +32,14 @@
   </options>
 
   <sessions>
-    <session name="user_workflow1-1" weight="1" type="ts_http">
-        <setdynvars sourcetype="urandom_string" length="7">
-        <var name="rand_user" />
-      </setdynvars>
+    <session name="flow1-1" weight="1" type="ts_http">
+        <!-- <setdynvars sourcetype="urandom_string" length="5">
+          <var name="rand_user" />
+        </setdynvars> -->
+
+        <setdynvars sourcetype="random_number" start="1" end="100000">
+            <var name="rand_user"/>
+        </setdynvars>
 
         <!-- Navigate to login/signup page -->
         <request>
@@ -56,13 +60,13 @@
         </request>
 
         <thinktime value="2" random="true"></thinktime>
-      
+
+        <!-- Create post -->
         <request subst="true">
           <dyn_variable name="post_authenticity_token1" xpath="//head/meta[@name='csrf-token']/@content"></dyn_variable>
           <http url="/posts" version="1.1" method="GET"/>
         </request>
 
-        <!-- Create post -->
         <setdynvars code='fun({Pid,DynVars})->{ok,Val}=ts_dynvars:lookup(post_authenticity_token1,DynVars),re:replace(Val,"[+]","%2B",[global,{return,list}]) end.' sourcetype="eval">
           <var name="encoded_post_authenticity_token1" />
         </setdynvars>
@@ -94,5 +98,6 @@
           </http>
         </request>
     </session>
+
   </sessions>
 </tsung>

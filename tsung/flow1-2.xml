@@ -6,7 +6,7 @@
   </clients>
 
   <servers>
-    <server host="yunhaoluo.eba-vxqrh727.us-west-2.elasticbeanstalk.com" port="80" type="tcp"></server>
+    <server host="yunhaoluo3.eba-vxqrh727.us-west-2.elasticbeanstalk.com" port="80" type="tcp"></server>
   </servers>
 
   <load>
@@ -36,9 +36,9 @@
       <setdynvars sourcetype="random_number" start="1" end="10">
         <var name="post_id"/>
       </setdynvars>
-      <setdynvars sourcetype="urandom_string" length="7">
+      <!-- <setdynvars sourcetype="urandom_string" length="7">
         <var name="rand_user" />
-      </setdynvars>
+      </setdynvars> -->
 
       <!-- Navigate to login page -->
       <request>
@@ -53,7 +53,7 @@
       <!-- Login with existing user -->
       <request subst="true">
         <http url="/login" version="1.1" method="POST"
-            contents="authenticity_token=%%_encoded_login_authenticity_token%%&amp;username=test_user%%_rand_user%%&amp;password=123456789&amp;commit=Log+In"
+            contents="authenticity_token=%%_encoded_login_authenticity_token%%&amp;username=test_user&amp;password=123456789&amp;commit=Log+In"
             content_type="application/x-www-form-urlencoded">
         </http>
       </request>

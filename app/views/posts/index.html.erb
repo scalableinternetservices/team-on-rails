@@ -293,49 +293,47 @@
   <% end %>
 </div>
 
+
 <div class="sidebyside">
     <div class="left">
         <% if @posts.count != 0%>
         <% @posts.each do |post| %>
+            <% cache post do %>
+                <div class="container">
+                    <article class="card">
+                        <%= link_to post_path(post), class: "card-link" do %>
+                        <div class = "card-header-comment">
+                        <header class="header">
+                            <h1 class="post-title">Post <%= post.id %></h1>
+                            <p class="meta-text"> Posted by: 
+                                <%= link_to post.username, user_profile_path(post.username), class: "username-link" %>
+                            </p>
+                            <p class="meta-text"> Last updated: <%= post.updated_at.strftime("%B %d, %Y, %I:%M %p") %> </p>
+                        </header>
 
+                        <div class="post-content">
+                            <h2 class="post-body"> <%= post.body %> </h2>
+                        </div>
 
-        <div class="container">
+                        <p class="meta-text"> Comments: <%= post.fetch_comments_count %> </p>
+                        <br>
+                        <br>
+                        </div>
+                        <%end%>
 
-            <article class="card">
-
-                <%= link_to post_path(post), class: "card-link" do %>
-                <div class = "card-header-comment">
-                <header class="header">
-                    <h1 class="post-title">Post <%= post.id %></h1>
-                    <p class="meta-text"> Posted by: 
-                        <%= link_to post.username, user_profile_path(post.username), class: "username-link" %>
-                    </p>
-                    <p class="meta-text"> Last updated: <%= post.updated_at.strftime("%B %d, %Y, %I:%M %p") %> </p>
-                </header>
-
-                <div class="post-content">
-                    <h2 class="post-body"> <%= post.body %> </h2>
+                        <% if @current_user.instructor? || @current_user.username == post.username %>
+                        <div class="update-section">
+                            <%= link_to "Update Post", post_path(post), class: "button button-blue" %>
+                            <%= link_to "Delete Post", post_path(post), class: "button button-red", 
+                            data: {
+                            turbo_method: :delete,
+                            turbo_confirm: "Are you sure?"
+                            } %>
+                        </div>
+                        <% end %>
+                    </article>
                 </div>
-
-                <p class="meta-text"> Comments: <%= post.comments.count %> </p>
-                <br>
-                <br>
-                </div>
-                <%end%>
-
-                <% if @current_user.instructor? || @current_user.username == post.username %>
-                <div class="update-section">
-                    <%= link_to "Update Post", post_path(post), class: "button button-blue" %>
-                    <%= link_to "Delete Post", post_path(post), class: "button button-red", 
-                      data: {
-                      turbo_method: :delete,
-                      turbo_confirm: "Are you sure?"
-                      } %>
-                </div>
-                <% end %>
-            </article>
-
-        </div>
+            <%end %>
         <%end %>
     </div>
     <%else%>

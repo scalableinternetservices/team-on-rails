@@ -3,6 +3,10 @@ class Post < ApplicationRecord
     has_many :comments, dependent: :destroy
     validates :body, presence: true, length: { minimum: 8, message: "must be at least 8 characters long" }
 
+    def fetch_comments_count
+        Rails.cache.fetch([self, "comments_count"]) { self.comments.size }
+    end
+
     # Validations
     validate :body_blacklist
 

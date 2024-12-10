@@ -239,9 +239,11 @@
     <% if @comments.any? %>
       <ul class="comment-list">
         <% @comments.each do |comment| %>
-          <li class="comment-item">
-            <p><%= comment.body %></p>
-          </li>
+          <% cache comment do %>
+            <li class="comment-item">
+              <p><%= comment.body %></p>
+            </li>
+          <% end %>
         <% end %>
       </ul>
     <% else %>

@@ -131,7 +131,7 @@ class PostsController < ApplicationController
     def can_manage_post?(post)
       return false unless @current_user
       @current_user.instructor? || @current_user.username == post.username
-    end
+    end 
 
 end
 

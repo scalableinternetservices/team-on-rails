@@ -1,0 +1,72 @@
+<?xml version="1.0"?>
+<!DOCTYPE tsung SYSTEM "/usr/local/share/tsung/tsung-1.0.dtd" [] >
+<tsung loglevel="debug">
+  <clients>
+    <client host="localhost" maxusers="32768" use_controller_vm="true" />
+  </clients>
+
+  <servers>
+    <server host="yunhaoluo.eba-vxqrh727.us-west-2.elasticbeanstalk.com" port="80" type="tcp"></server>
+  </servers>
+
+  <load>
+    <arrivalphase phase="1" duration="30" unit="second">
+      <users arrivalrate="1" unit="second"></users>
+    </arrivalphase>
+    <arrivalphase phase="2" duration="30" unit="second">
+      <users arrivalrate="2" unit="second"></users>
+    </arrivalphase>
+    <arrivalphase phase="3" duration="30" unit="second">
+      <users arrivalrate="4" unit="second"></users>
+    </arrivalphase>
+    <arrivalphase phase="4" duration="30" unit="second">
+      <users arrivalrate="8" unit="second"></users>
+    </arrivalphase>
+    <arrivalphase phase="5" duration="30" unit="second">
+      <users arrivalrate="16" unit="second"></users>
+    </arrivalphase>
+  </load>
+
+  <options>
+    <option name="global_ack_timeout" value="3000"></option>
+    <option name="file_server" id="users" value="users.csv"/>
+  </options>
+
+  <sessions>
+    <session name="user_workflow1-2" weight="30" type="ts_http">
+      <setdynvars sourcetype="random_number" start="1" end="10">
+        <var name="post_id"/>
+      </setdynvars>
+
+      <setdynvars sourcetype="file" fileid="users" delimiter="," order="iter">
+        <var name="username" />
+        <var name="password" />
+      </setdynvars>
+
+      <!-- Navigate to login page -->
+      <request>
+        <dyn_variable name="login_authenticity_token" xpath="//head/meta[@name='csrf-token']/@content"></dyn_variable>
+        <http method="GET" version="1.1" url="/login"></http>
+      </request>
+
+      <setdynvars code='fun({Pid,DynVars})->{ok,Val}=ts_dynvars:lookup(login_authenticity_token,DynVars),re:replace(Val,"[+]","%2B",[global,{return,list}]) end.' sourcetype="eval">
+        <var name="encoded_login_authenticity_token" />
+      </setdynvars>
+
+      <!-- Login with existing user -->
+      <request subst="true">
+        <http url="/login" version="1.1" method="POST"
+            contents="authenticity_token=%%_encoded_login_authenticity_token%%&amp;username=%%_username%%&amp;password=%%_password%%&amp;commit=Log+In"
+            content_type="application/x-www-form-urlencoded">
+        </http>
+      </request>
+
+      <thinktime value="2" random="true"></thinktime>
+
+      <!-- View existing post -->
+      <request subst="true">
+        <http url="/posts/%%_post_id%%" version="1.1" method="GET"/>
+      </request>
+    </session>
+  </sessions>
+</tsung>

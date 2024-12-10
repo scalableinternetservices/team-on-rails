@@ -1,0 +1,104 @@
+<?xml version="1.0"?>
+<!DOCTYPE tsung SYSTEM "/usr/local/share/tsung/tsung-1.0.dtd" [] >
+<tsung loglevel="debug">
+  <clients>
+    <client host="localhost" maxusers="32768" use_controller_vm="true" />
+  </clients>
+
+  <servers>
+    <server host="yunhaoluo.eba-vxqrh727.us-west-2.elasticbeanstalk.com" port="80" type="tcp"></server>
+  </servers>
+
+  <load>
+    <arrivalphase phase="1" duration="30" unit="second">
+      <users arrivalrate="1" unit="second"></users>
+    </arrivalphase>
+    <arrivalphase phase="2" duration="30" unit="second">
+      <users arrivalrate="2" unit="second"></users>
+    </arrivalphase>
+    <arrivalphase phase="3" duration="30" unit="second">
+      <users arrivalrate="4" unit="second"></users>
+    </arrivalphase>
+    <arrivalphase phase="4" duration="30" unit="second">
+      <users arrivalrate="8" unit="second"></users>
+    </arrivalphase>
+    <arrivalphase phase="5" duration="30" unit="second">
+      <users arrivalrate="16" unit="second"></users>
+    </arrivalphase>
+  </load>
+
+  <options>
+    <option name="global_ack_timeout" value="3000"></option>
+    <option name="file_server" id="users" value="users.csv"/>
+  </options>
+
+  <sessions>
+    <session name="flow1-1" weight="1" type="ts_http">
+        <!-- <setdynvars sourcetype="random_number" start="1" end="100000">
+            <var name="rand_user"/>
+        </setdynvars> -->
+
+        <setdynvars sourcetype="file" fileid="users" delimiter="," order="iter">
+          <var name="username" />
+          <var name="password" />
+        </setdynvars>
+
+        <!-- Navigate to login/signup page -->
+        <request>
+          <dyn_variable name="signup_authenticity_token" xpath="//head/meta[@name='csrf-token']/@content"></dyn_variable>
+          <http method="GET" version="1.1" url="/login"></http>
+        </request>
+
+        <setdynvars code='fun({Pid,DynVars})->{ok,Val}=ts_dynvars:lookup(signup_authenticity_token,DynVars),re:replace(Val,"[+]","%2B",[global,{return,list}]) end.' sourcetype="eval">
+          <var name="encoded_signup_authenticity_token" />
+        </setdynvars>
+
+        <!-- Signup new user -->
+        <request subst="true">
+          <http url="/signup" version="1.1" method="POST"
+              contents="authenticity_token=%%_encoded_signup_authenticity_token%%&amp;username=%%_username%%&amp;password=%%_password%%&amp;role=Student&amp;commit=Sign+Up"
+              content_type="application/x-www-form-urlencoded">
+          </http>
+        </request>
+
+        <thinktime value="2" random="true"></thinktime>
+
+        <!-- Create post -->
+        <request subst="true">
+          <dyn_variable name="post_authenticity_token1" xpath="//head/meta[@name='csrf-token']/@content"></dyn_variable>
+          <http url="/posts" version="1.1" method="GET"/>
+        </request>
+
+        <setdynvars code='fun({Pid,DynVars})->{ok,Val}=ts_dynvars:lookup(post_authenticity_token1,DynVars),re:replace(Val,"[+]","%2B",[global,{return,list}]) end.' sourcetype="eval">
+          <var name="encoded_post_authenticity_token1" />
+        </setdynvars>
+
+        <request subst="true">
+          <http url="/posts" version="1.1" method="POST"
+              contents="authenticity_token=%%_encoded_post_authenticity_token1%%&amp;post%5Bbody%5D=Thisismypost&amp;commit=Create+Post"
+              content_type="application/x-www-form-urlencoded">
+          </http>
+        </request>
+
+        <!-- Create a comment on the post -->
+        <request subst="true">
+          <dyn_variable name="comment_authenticity_token" xpath="//head/meta[@name='csrf-token']/@content"></dyn_variable>
+          <http url="/posts" version="1.1" method="GET"/>
+        </request>
+
+        <setdynvars code='fun({Pid,DynVars})->{ok,Val}=ts_dynvars:lookup(comment_authenticity_token,DynVars),re:replace(Val,"[+]","%2B",[global,{return,list}]) end.' sourcetype="eval">
+          <var name="encoded_comment_authenticity_token" />
+        </setdynvars>
+
+        <request subst="true">
+          <http
+          url='/posts/1/comments'
+          version='1.1'
+          method='POST'
+          contents="authenticity_token=%%_encoded_comment_authenticity_token%%&amp;comment%5Bbody%5D=Thisisacomment&amp;commit=Post+comment"
+          content_type="application/x-www-form-urlencoded">
+          </http>
+        </request>
+    </session>
+  </sessions>
+</tsung>

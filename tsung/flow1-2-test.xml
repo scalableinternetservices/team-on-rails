@@ -6,7 +6,7 @@
   </clients>
 
   <servers>
-    <server host="yunhaoluo.eba-vxqrh727.us-west-2.elasticbeanstalk.com" port="80" type="tcp"></server>
+    <server host="yunhaoluoh20.eba-vxqrh727.us-west-2.elasticbeanstalk.com" port="80" type="tcp"></server>
   </servers>
 
   <load>

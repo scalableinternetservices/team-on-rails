@@ -317,6 +317,7 @@
     <!-- meeting-cards container -->
     <div class="meeting-cards">
       <% @meetings.each do |meeting| %>
+        <% cache meeting do %>
         <article class="card">
           <% if @editing_meeting == meeting %>
             <!-- Edit Form -->

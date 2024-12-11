@@ -20,10 +20,12 @@
 <style>
 .nav-bar {
   position: fixed;
-  bottom: 0;
+  # bottom: 0;
+  top: 0;
   left: 0;
   width: 100%;
-  background-color: white;
+  background-color: #003566;
+  color: white;
   display: flex;
   justify-content: space-around;
   padding: 12px 0;
@@ -36,7 +38,7 @@
   flex-direction: column;
   align-items: center;
   text-decoration: none;
-  color: #666;
+  color: white;
   transition: all 0.2s ease;
   padding: 8px 16px;
   border-radius: 8px;
@@ -60,5 +62,29 @@
 .nav-item.active {
   color: #4a90e2;
   background-color: #e8f1fc;
+}
+
+.button {
+    padding: 8px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    border: none;
+    font-weight: 500;
+    text-decoration: none;
+}
+
+.button-logout {
+  color: #dc3545;
+  border: 1px solid #dc3545;
+  background: #dc3545;
+  color: white;
+  display: flex;
+  align-items: center;
+  margin-right: 50px;
+  padding-top: 10px;
+}
+
+.button-logout:hover {
+  background: #b52d3a;
 }
 </style>

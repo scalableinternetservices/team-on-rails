@@ -1,5 +1,5 @@
 class ChatsController < ApplicationController
-    before_action :set_chat, only: [:show, :create_message]
+    before_action :set_chat, except: [:index], only: [:show, :create_message]
     before_action :require_login
   
     def show
@@ -10,6 +10,16 @@ class ChatsController < ApplicationController
         puts @chat_recipient.username
         @messages = @chat.messages.order(created_at: :asc)
         @message = Message.new 
+    end
+
+    def index
+        @current_user = User.find_by(id: session[:user_id])
+
+        @chats = Chat.where("user1_id = ? OR user2_id = ?", @current_user.id, @current_user.id)
+        @unresponded_chats = @chats.where("last_message_user_id != ?", @current_user.id)
+        @newmessages = @unresponded_chats.map do |chat| 
+            Message.find(chat.last_message_id)
+        end.flatten
     end
 
     def new

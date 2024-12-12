@@ -297,7 +297,7 @@
     <div class="left">
         <% if @posts.count != 0%>
         <% @posts.each do |post| %>
-
+        <% cache post do %>
 
         <div class="container">
 
@@ -335,8 +335,12 @@
                 <% end %>
             </article>
 
-        </div>
+            </div>
         <%end %>
+        <%end %>
+        <div style="font-size: 24x;">
+        <%= paginate @meetings %>
+      </div>
     </div>
     <%else%>
     <div class="left">

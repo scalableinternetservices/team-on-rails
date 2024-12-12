@@ -6,7 +6,7 @@
   </clients>
 
   <servers>
-    <server host="yunhaoluo2.eba-vxqrh727.us-west-2.elasticbeanstalk.com" port="80" type="tcp"></server>
+    <server host="yunhaoluo-before.eba-vxqrh727.us-west-2.elasticbeanstalk.com" port="80" type="tcp"></server>
   </servers>
 
   <load>
@@ -30,6 +30,7 @@
   <options>
     <option name="global_ack_timeout" value="3000"></option>
     <option name="file_server" id="users" value="users.csv"/>
+    <option name="file_server" id="users-new" value="users-new.csv"/>
   </options>
 
   <sessions>
@@ -38,7 +39,7 @@
             <var name="rand_user"/>
         </setdynvars> -->
 
-        <setdynvars sourcetype="file" fileid="users" delimiter="," order="iter">
+        <setdynvars sourcetype="file" fileid="users-new" delimiter="," order="iter">
           <var name="username" />
           <var name="password" />
         </setdynvars>
@@ -104,6 +105,11 @@
     <session name="user_workflow1-2" weight="30" type="ts_http">
       <setdynvars sourcetype="random_number" start="1" end="10">
         <var name="post_id"/>
+      </setdynvars>
+
+      <setdynvars sourcetype="file" fileid="users" delimiter="," order="iter">
+        <var name="username" />
+        <var name="password" />
       </setdynvars>
 
       <!-- Navigate to login page -->

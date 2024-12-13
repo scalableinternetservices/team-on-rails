@@ -317,7 +317,6 @@
     <!-- meeting-cards container -->
     <div class="meeting-cards">
       <% @meetings.each do |meeting| %>
-        <% cache meeting do %>
         <article class="card">
           <% if @editing_meeting == meeting %>
             <!-- Edit Form -->
@@ -400,7 +399,6 @@
             </div>
           <% end %>
         </article>
-        <% end %>
       <% end %>
       <div style="font-size: 24x;">
         <%= paginate @meetings %>

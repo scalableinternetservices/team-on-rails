@@ -5,6 +5,16 @@
         padding: 24px;
         margin-bottom: 40px;
     }
+    .containercenter {
+        max-width: 1000px;
+        margin: 0 auto;
+        padding: 24px;
+        margin-bottom: 40px;
+        justify-content: center;
+        align-items: center;
+        display: flex;
+    }
+
 
     .sidebyside {
         display: flex;
@@ -55,6 +65,15 @@
     .meta-text {
         font-size: 14px;
         color: #666;
+    }
+    .middle {
+        width: 45%;
+        background-color: #f0f0f0;
+        padding: 10px;
+        align-content: center;
+        display: flex;
+        justify-content: center; 
+        align-items: center;
     }
 
     .meta-text .author {
@@ -345,8 +364,10 @@
         <%= paginate @posts %>
     </div>
 <%else%>
-    <div class="left">
-        <h2>"No posts yet"</h2>
+    <div class = "containercenter">
+        <div class="middle">
+            <h2 class = "middle">"No posts yet"</h2>
+        </div>
     </div>
 <%end%>
 

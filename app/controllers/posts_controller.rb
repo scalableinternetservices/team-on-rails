@@ -74,11 +74,13 @@ class PostsController < ApplicationController
       redirect_to posts_path
       return
     end
-
+    puts post_params
     if @post.update(post_params) 
       redirect_to post_path 
     else
-      render :edit, status: :unprocessable_entity
+      puts @post.errors.full_messages
+      flash[:post_alert] = @post.errors.full_messages.join(", ")
+      redirect_to @post
     end
   end
 

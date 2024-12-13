@@ -223,6 +223,11 @@
           </div>
           <%= form.submit "Update Post", class: "button button-blue" %>
         <% end %>
+        <% if flash[:post_alert] %>
+          <div class="alert">
+            <strong>Alert:</strong> <%= flash[:post_alert] %>
+          </div>
+        <% end %>
       </div>
 
       <div class="button-container">

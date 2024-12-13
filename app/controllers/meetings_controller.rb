@@ -3,7 +3,7 @@ class MeetingsController < ApplicationController
   before_action :require_user
 
   def index
-    @meetings = Meeting.all.order(start_time: :asc)
+    @meetings = Meeting.all.order(start_time: :asc).page(params[:page])
     @meeting = Meeting.new
     @current_user = User.find_by(id: session[:user_id])
   end
